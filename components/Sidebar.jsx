@@ -81,7 +81,7 @@ const Sidebar = ({ isSidebarOpen }) => {
       <>
         <table>
           <tbody>
-            {title && (
+            {title && !isSidebarOpen && (
               <tr>
                 <td>{title}</td>
               </tr>
@@ -115,7 +115,7 @@ const Sidebar = ({ isSidebarOpen }) => {
             ))}
           </tbody>
         </table>
-        {shouldDisplaySeeMore && (
+        {shouldDisplaySeeMore && !isSidebarOpen && (
           <>
             <button
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -148,17 +148,12 @@ const Sidebar = ({ isSidebarOpen }) => {
                           </span>
                         </a>
                       </td>
-                      {menuItem.divider && (
-                        <td>
-                          <hr className="my-2 border-t border-gray-300 dark:border-gray-600" />
-                        </td>
-                      )}
                     </tr>
                   </React.Fragment>
                 ))}
               </tbody>
             </table>
-            {shouldDisplaySeeLess && (
+            {shouldDisplaySeeLess && isSidebarOpen && (
               <>
                 <button
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"

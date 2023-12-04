@@ -18,11 +18,11 @@ const Navbar = ({ toggleSidebar, toggleDropdown, isDropdownOpen }) => {
               src="/metatube.png"
               class="h-8"
               alt="Flowbite Logo"
-              width={32}
-              height={32}
+              width={48}
+              height={48}
             />
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
+              Metatube
             </span>
           </a>
         </div>
