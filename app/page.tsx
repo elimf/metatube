@@ -10,7 +10,7 @@ export default function Home() {
             {galleryItems.map((item) => (
               <div key={item} className="overflow-hidden bg-gray-300">
                 <Image
-                  src={`https://via.placeholder.com/400?text=Gallery+Item+${item}`}
+                  src={`https://via.placeholder.com/400`}
                   alt={`Gallery Item ${item}`}
                   className="object-cover w-full h-48"
                   width={400}

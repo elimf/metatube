@@ -10,16 +10,16 @@ import {
   UserIcon,
   ThumbUpIcon,
 } from "@heroicons/react/solid";
+import { Tooltip } from "react-tooltip";
 
 const Sidebar = ({ isSidebarOpen }) => {
   const [showMoreVideos, setShowMoreVideos] = useState(false);
   const [showMoreSubscriptions, setShowMoreSubscriptions] = useState(false);
 
-  const createMenuItem = (icon, title, onClick, bool) => ({
+  const createMenuItem = (icon, title, onClick) => ({
     icon: icon,
     title: title,
     onClick: onClick,
-    divider: bool,
   });
 
   const mainMenuItems = [
@@ -91,15 +91,17 @@ const Sidebar = ({ isSidebarOpen }) => {
                 <tr>
                   <td>
                     <a
-                      href="#"
                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                       onClick={menuItem.onClick}
+                      data-tooltip-content={menuItem.title}
+                      data-tooltip-id={menuItem.title}
                     >
                       {menuItem.icon}
                       <span className={`ms-3 ${isSidebarOpen ? "hidden" : ""}`}>
                         {menuItem.title}
                       </span>
                     </a>
+                    <Tooltip id={menuItem.title} effect="solid" place="right" />
                   </td>
                 </tr>
                 <tr>
@@ -136,9 +138,10 @@ const Sidebar = ({ isSidebarOpen }) => {
                     <tr>
                       <td>
                         <a
-                          href="#"
                           className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                           onClick={menuItem.onClick}
+                          data-tooltip-content={menuItem.title}
+                          data-tooltip-id={menuItem.title}
                         >
                           {menuItem.icon}
                           <span
@@ -147,13 +150,18 @@ const Sidebar = ({ isSidebarOpen }) => {
                             {menuItem.title}
                           </span>
                         </a>
+                        <Tooltip
+                          id={menuItem.title}
+                          effect="solid"
+                          place="right"
+                        />
                       </td>
                     </tr>
                   </React.Fragment>
                 ))}
               </tbody>
             </table>
-            {shouldDisplaySeeLess && isSidebarOpen && (
+            {shouldDisplaySeeLess && !isSidebarOpen && (
               <>
                 <button
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
