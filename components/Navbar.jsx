@@ -1,6 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import { MenuIcon, SearchIcon, BellIcon, VideoCameraIcon} from "@heroicons/react/solid";
+import {
+  MenuIcon,
+  SearchIcon,
+  BellIcon,
+  VideoCameraIcon,
+} from "@heroicons/react/solid";
 
 const Navbar = ({ toggleSidebar, toggleDropdown, isDropdownOpen }) => {
   return (
@@ -80,7 +85,7 @@ const Navbar = ({ toggleSidebar, toggleDropdown, isDropdownOpen }) => {
           </button>
           {isDropdownOpen && (
             <div
-              className="z-50 top-12 right-0 w-64 h-screen  absolute my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-neutral-950 dark:divide-gray-600"
+              className="z-50 top-16 right-0 w-64 h-screen  absolute my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-neutral-900 dark:divide-gray-600"
               id="user-dropdown"
             >
               <div className="px-4 py-3 ">
