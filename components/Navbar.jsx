@@ -9,24 +9,24 @@ import {
 
 const Navbar = ({ toggleSidebar, toggleDropdown, isDropdownOpen }) => {
   return (
-    <nav class="fixed top-0 z-40 w-full bg-white border-b border-gray-200 dark:bg-neutral-950 dark:border-gray-700">
-      <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div class="w-1/12 flex items-center justify-between ">
+    <nav className="fixed top-0 z-40 w-full bg-white border-b border-gray-200 dark:bg-neutral-950 dark:border-gray-700">
+      <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="w-1/12 flex items-center justify-between ">
           <button type="button" className="text-sm " onClick={toggleSidebar}>
             <MenuIcon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
           </button>
           <a
             href="https://flowbite.com/"
-            class="flex items-center space-x-1 ml-10  "
+            className="flex items-center space-x-1 ml-10  "
           >
             <Image
               src="/metatube.png"
-              class="h-8"
+              className="h-8"
               alt="Flowbite Logo"
               width={48}
               height={48}
             />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Metatube
             </span>
           </a>

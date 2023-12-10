@@ -13,21 +13,22 @@ const Header = ({ children }) => {
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
-
+const mainMargin = isSidebarOpen ?  "ml-16":"ml-48" ;
   return (
-    <>
-      <Navbar
-        toggleSidebar={toggleSidebar}
-        toggleDropdown={toggleDropdown}
-        isDropdownOpen={isDropdownOpen}
-      />
-
-      <Sidebar isSidebarOpen={isSidebarOpen} />
-
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        {children}
-      </main>
-    </>
+    <div className="flex h-screen">
+      <div className="flex flex-col flex-1 overflow-hidden">
+        <Navbar
+          toggleSidebar={toggleSidebar}
+          toggleDropdown={toggleDropdown}
+          isDropdownOpen={isDropdownOpen}
+        />
+        <Sidebar isSidebarOpen={isSidebarOpen} />
+        <main
+          className={`flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-4 ${mainMargin}`}>
+          {children}
+        </main>
+      </div>
+    </div>
   );
 };
 
