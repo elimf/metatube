@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useForm, SubmitHandler, Resolver } from "react-hook-form";
-
+import Link from "next/link";
 type FormDataRegister = {
   email: string;
   password: string;
@@ -141,16 +141,16 @@ const Register: React.FC = () => {
               </button>
             </div>
             <div className="text-center mt-4">
-              <a href="#" className="text-gray-600 hover:underline">
+              <Link href="#" className="text-gray-600 hover:underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </form>
           <p className="text-center text-gray-600 mt-6">
             You already have an account?{" "}
-            <a href="/login" className="text-blue-500 hover:underline">
+            <Link href="/login" className="text-blue-500 hover:underline">
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>

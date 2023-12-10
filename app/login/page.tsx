@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useForm, SubmitHandler, Resolver } from "react-hook-form";
-
+import Link from "next/link";
 type FormDataLogin = {
   email: string;
   password: string;
@@ -113,16 +113,16 @@ const Login: React.FC = () => {
               </button>
             </div>
             <div className="text-center mt-4">
-              <a href="#" className="text-gray-600 hover:underline">
+              <Link href="#" className="text-gray-600 hover:underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </form>
           <p className="text-center text-gray-600 mt-6">
             Don&#39;t have an account?{" "}
-            <a href="/register" className="text-blue-500 hover:underline">
+            <Link href="/register" className="text-blue-500 hover:underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
