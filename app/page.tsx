@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "./components/Header";
 import Image from "next/image";
 export default function Home() {
   const galleryItems = Array.from({ length: 9 }, (_, index) => index + 1);
