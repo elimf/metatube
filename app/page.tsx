@@ -8,7 +8,7 @@ export default function Home() {
         <div className="flex-grow">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
             {galleryItems.map((item) => (
-              <div key={item} className="overflow-hidden bg-gray-300">
+              <div key={item} className="overflow-hidden bg-gray-900">
                 <Image
                   src={`https://via.placeholder.com/400`}
                   alt={`Gallery Item ${item}`}

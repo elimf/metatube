@@ -13,7 +13,7 @@ const Header = ({ children }) => {
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
-const mainMargin = isSidebarOpen ?  "ml-16":"ml-48" ;
+  const mainMargin = isSidebarOpen ? "ml-16" : "ml-48";
   return (
     <div className="flex h-screen">
       <div className="flex flex-col flex-1 overflow-hidden">
@@ -24,7 +24,8 @@ const mainMargin = isSidebarOpen ?  "ml-16":"ml-48" ;
         />
         <Sidebar isSidebarOpen={isSidebarOpen} />
         <main
-          className={`flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-4 ${mainMargin}`}>
+          className={`flex-1 overflow-x-hidden overflow-y-auto p-4 ${mainMargin}`}
+        >
           {children}
         </main>
       </div>
