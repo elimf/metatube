@@ -2,15 +2,12 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import Link from "next/link";
-type FormDataLogin = {
-  email: string;
-  password: string;
-};
+import { passwordRegex } from "@/utils/regex";
+import { Login } from "@/types/auth";
 
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-const resolver: Resolver<FormDataLogin> = async (values) => {
+
+const resolver: Resolver<Login> = async (values) => {
   return {
     values: values.email && values.password ? values : {},
     errors: {
@@ -31,7 +28,7 @@ const Login: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormDataLogin>({ resolver });
+  } = useForm<Login>({ resolver });
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = handleSubmit((data) => console.log(data));
 

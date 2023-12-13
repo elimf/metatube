@@ -1,19 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import { useForm, SubmitHandler, Resolver } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm, SubmitHandler, Resolver, set } from "react-hook-form";
 import Link from "next/link";
-type FormDataRegister = {
-  email: string;
-  password: string;
-  pseudo: string;
-};
+import { passwordRegex } from "@/utils/regex";
+import { Register } from "@/types/auth";
+import { apiRegister } from "@/api/auth/register";
+import showToast from "@/utils/toast";
+import "react-toastify/dist/ReactToastify.css";
 
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-const resolver: Resolver<FormDataRegister> = async (values) => {
+const resolver: Resolver<Register> = async (values) => {
   return {
-    values: values.email && values.password && values.pseudo ? values : {},
+    values: values.email && values.password && values.username ? values : {},
     errors: {
       ...(values.email
         ? {}
@@ -24,9 +22,9 @@ const resolver: Resolver<FormDataRegister> = async (values) => {
       ...(values.password && !passwordRegex.test(values.password)
         ? { password: { type: "pattern", message: "Invalid password format" } }
         : {}),
-      ...(values.pseudo
+      ...(values.username
         ? {}
-        : { pseudo: { type: "required", message: "Pseudo is required " } }),
+        : { username: { type: "required", message: "username is required " } }),
     },
   };
 };
@@ -34,10 +32,43 @@ const Register: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
-  } = useForm<FormDataRegister>({ resolver });
+  } = useForm<Register>({ resolver });
+
   const [showPassword, setShowPassword] = useState(false);
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const router = useRouter();
+  const onSubmit: SubmitHandler<Register> = async (data) => {
+    clearErrors();
+    const result = await apiRegister(data);
+    switch (result.statusCode) {
+      case 400:
+        if (result.message.includes("email")) {
+          setError("email", {
+            type: "server",
+            message: result.message,
+          });
+        }
+        if (result.message.includes("username")) {
+          setError("username", {
+            type: "server",
+            message: result.message,
+          });
+        }
+        showToast(result.message, "error");
+        break;
+      case 200:
+        showToast(result.message, "success");
+        router.push("/login");
+        break;
+      case 500:
+        showToast(result.message, "error");
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -48,27 +79,27 @@ const Register: React.FC = () => {
               Register
             </span>
           </h2>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-6">
               <label
-                htmlFor="pseudo"
+                htmlFor="username"
                 className="block text-gray-700 text-sm font-bold mb-2"
               >
-                <i className="fas fa-user mr-2"></i>Pseudo
+                <i className="fas fa-user mr-2"></i>username
               </label>
               <div>
                 <input
-                  id="pseudo"
+                  id="username"
                   type="text"
                   className={`shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                    errors?.pseudo ? "border-red-500" : ""
+                    errors?.username ? "border-red-500" : ""
                   }`}
-                  placeholder="Enter your pseudo"
-                  {...register("pseudo")}
+                  placeholder="Enter your username"
+                  {...register("username")}
                 />
-                {errors?.pseudo && (
+                {errors?.username && (
                   <p className="text-red-500 text-xs italic">
-                    {errors.pseudo.message}
+                    {errors.username.message}
                   </p>
                 )}
               </div>
