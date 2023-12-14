@@ -7,6 +7,7 @@ import { passwordRegex } from "@/utils/regex";
 import { Login } from "@/types/auth";
 import { apiLogin } from "@/api/auth/login";
 import showToast from "@/utils/toast";
+import withAuth from "@/utils/authManager";
 
 const resolver: Resolver<Login> = async (values) => {
   return {
@@ -49,8 +50,7 @@ const Login: React.FC = () => {
         showToast("Incorrect email or password. Please try again.", "warning");
         break;
       case 201:
-        showToast(result.message, "success", () => router.push("/"),
-        );
+        showToast(result.message, "success", () => router.push("/"));
         break;
       case 500:
         showToast(result.message, "error");
@@ -155,4 +155,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default withAuth(Login);
