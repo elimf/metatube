@@ -7,7 +7,7 @@ import { passwordRegex } from "@/utils/regex";
 import { Register } from "@/types/auth";
 import { apiRegister } from "@/api/auth/register";
 import showToast from "@/utils/toast";
-import "react-toastify/dist/ReactToastify.css";
+
 
 const resolver: Resolver<Register> = async (values) => {
   return {
@@ -56,9 +56,9 @@ const Register: React.FC = () => {
             message: result.message,
           });
         }
-        showToast(result.message, "error");
+        showToast(result.message, "warning");
         break;
-      case 200:
+      case 201:
         showToast(result.message, "success");
         router.push("/login");
         break;
