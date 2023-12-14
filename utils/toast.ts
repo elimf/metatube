@@ -1,4 +1,4 @@
-import { toast, ToastOptions } from "react-toastify";
+import { toast, ToastOptions, ToastItem } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type ToastType = "success" | "error" | "warning" | "info";
@@ -6,6 +6,7 @@ type ToastType = "success" | "error" | "warning" | "info";
 const showToast = (
   text: string,
   type: ToastType = "info",
+  onClose?: () => void
 ): void => {
   const toastOptions: ToastOptions = {
     position: "top-right",
@@ -15,22 +16,42 @@ const showToast = (
     pauseOnHover: false,
     draggable: false,
     progress: undefined,
-    
   };
 
+  let toastFunction;
   switch (type) {
     case "success":
-      toast.success(text, toastOptions);
+      toastFunction = toast.success;
       break;
     case "error":
-      toast.error(text, toastOptions);
+      toastFunction = toast.error;
       break;
     case "warning":
-      toast.warn(text, toastOptions);
+      toastFunction = toast.warn;
       break;
     case "info":
-      toast.info(text, toastOptions);
+      toastFunction = toast.info;
       break;
+    default:
+      break;
+  }
+
+  if (toastFunction) {
+    toastFunction(text, toastOptions);
+    toast.onChange((payload: ToastItem) => {
+      switch (payload.status) {
+        case "added":
+          break;
+        case "updated":
+          break;
+        case "removed":
+          console.log("removed");
+          if (onClose) {
+            onClose();
+          }
+          break;
+      }
+    });
   }
 };
 

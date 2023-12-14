@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import Link from "next/link";
 import { passwordRegex } from "@/utils/regex";
 import { Login } from "@/types/auth";
-
-
+import { apiLogin } from "@/api/auth/login";
+import showToast from "@/utils/toast";
 
 const resolver: Resolver<Login> = async (values) => {
   return {
@@ -27,10 +28,37 @@ const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<Login>({ resolver });
   const [showPassword, setShowPassword] = useState(false);
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const router = useRouter();
+  const onSubmit: SubmitHandler<Login> = async (data) => {
+    clearErrors();
+    const result = await apiLogin(data);
+
+    switch (result.statusCode) {
+      case 401:
+        setError("password", {
+          type: "server",
+        });
+        setError("email", {
+          type: "server",
+        });
+        showToast("Incorrect email or password. Please try again.", "warning");
+        break;
+      case 201:
+        showToast(result.message, "success", () => router.push("/"),
+        );
+        break;
+      case 500:
+        showToast(result.message, "error");
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -41,7 +69,7 @@ const Login: React.FC = () => {
               LogIn
             </span>
           </h2>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-6">
               <label
                 htmlFor="email"
