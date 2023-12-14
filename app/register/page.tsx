@@ -85,7 +85,7 @@ const Register: React.FC = () => {
                 htmlFor="username"
                 className="block text-gray-700 text-sm font-bold mb-2"
               >
-                <i className="fas fa-user mr-2"></i>username
+                <i className="fas fa-user mr-2"></i>Username
               </label>
               <div>
                 <input
