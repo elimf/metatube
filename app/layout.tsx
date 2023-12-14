@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ToastContainer, toast } from "react-toastify";
 import "@/styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Metatube",
