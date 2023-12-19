@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (
   if (!isAuthenticated) {
     return {
       redirect: {
-        destination: "/login", // Remplacez '/login' par le chemin de votre page de connexion
+        destination: "/login", 
         permanent: false,
       },
     };
