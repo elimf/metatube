@@ -45,7 +45,6 @@ const showToast = (
         case "updated":
           break;
         case "removed":
-          console.log("removed");
           if (onClose) {
             onClose();
           }
