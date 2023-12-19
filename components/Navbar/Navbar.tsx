@@ -75,7 +75,6 @@ const Navbar: React.FC<NavbarProps> = ({
           <ProfilDropdown
             toggleDropdown={toggleDropdown}
             isDropdownOpen={isDropdownOpen}
-            isAuthenticated={false}
           />
         </div>
       </div>

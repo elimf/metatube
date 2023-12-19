@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ProfilDropdownProps } from "@/types/props/ProfilDropdownProps";
-
+import { checkIfUserIsAuthenticated } from "@/utils/authManager";
 const ProfilDropdown: React.FC<ProfilDropdownProps> = ({
   toggleDropdown,
   isDropdownOpen,
-  isAuthenticated,
 }) => {
+  const isAuthenticated = checkIfUserIsAuthenticated();
      const dropdownHeight = isAuthenticated ? "h-screen" : "h-50";
   return (
     <>

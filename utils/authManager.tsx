@@ -4,35 +4,30 @@ import { useEffect } from "react";
 import { JwtTokenManager } from "./jwtManager";
 
 interface WrapperProps {
-  // Ajoutez les propriétés du composant enveloppé ici
+  // Add the properties your wrapped component might need
+  // For example, you can add user information, authentication status, etc.
 }
-const checkIfUserIsAuthenticated = () => {
+
+export const checkIfUserIsAuthenticated = () => {
   const tokenManager = new JwtTokenManager();
   const token = tokenManager.getToken();
-  if (!token) {
-    return false;
-  }
-  return true;
+  return !!token; // Simplified check, returns true if token is present
 };
 
 const withAuth = <P extends object>(
-  WrappedComponent: React.ComponentType<P>
+  WrappedComponent: React.ComponentType<P & WrapperProps>
 ) => {
   const Wrapper: React.FC<P & WrapperProps> = (props) => {
     const router = useRouter();
 
     useEffect(() => {
-      // Vérifier ici si l'utilisateur est connecté
       const isAuthenticated = checkIfUserIsAuthenticated();
-      console.log(isAuthenticated);
 
-      // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
       if (!isAuthenticated) {
-        router.push("/login"); // Remplacez '/login' par le chemin de votre page de connexion
+        router.push("/login"); // Replace '/login' with your login page path
       }
     }, [router]);
 
-    // Si l'utilisateur est connecté, renvoyer le composant enveloppé
     return <WrappedComponent {...props} />;
   };
 
@@ -42,20 +37,17 @@ const withAuth = <P extends object>(
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  // Vérifier ici si l'utilisateur est connecté lors du rendu côté serveur
   const isAuthenticated = checkIfUserIsAuthenticated();
 
-  // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
   if (!isAuthenticated) {
     return {
       redirect: {
-        destination: "/login", 
+        destination: "/login",
         permanent: false,
       },
     };
   }
 
-  // Si l'utilisateur est connecté, renvoyer les propriétés du composant enveloppé
   return {
     props: {},
   };

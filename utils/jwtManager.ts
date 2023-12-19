@@ -23,7 +23,7 @@ export class JwtTokenManager {
 
   // Récupère le token depuis les cookies
   public getToken(): string | undefined {
-    return Cookies.get(this.accessTokenCookieName );
+    return Cookies.get(this.accessTokenCookieName);
   }
   public getTokenRefresh(): string | undefined {
     return Cookies.get(this.refreshTokenCookieName);
@@ -44,7 +44,7 @@ export class JwtTokenManager {
   public isTokenValid(token: string): boolean {
     if (!token) return false;
     try {
-      const decodedToken = jwt.decode(token);
+      jwt.decode(token);
       return true;
     } catch (error) {
       console.error("Erreur lors de la vérification du token :", error);
