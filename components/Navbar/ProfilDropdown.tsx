@@ -1,13 +1,17 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { ProfilDropdownProps } from "@/types/props/ProfilDropdownProps";
 import { checkIfUserIsAuthenticated } from "@/utils/authManager";
+import { JwtTokenManager } from "@/utils/jwtManager";
+
 const ProfilDropdown: React.FC<ProfilDropdownProps> = ({
   toggleDropdown,
   isDropdownOpen,
 }) => {
+  const tokenManager = new JwtTokenManager();
   const isAuthenticated = checkIfUserIsAuthenticated();
-     const dropdownHeight = isAuthenticated ? "h-screen" : "h-50";
+  const dropdownHeight = isAuthenticated ? "h-screen" : "h-50";
   return (
     <>
       <button
@@ -68,7 +72,7 @@ const ProfilDropdown: React.FC<ProfilDropdownProps> = ({
                 </li>
                 <li>
                   <a
-                    href="#"
+                    onClick={() => tokenManager.cleaner()}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
                     Sign out
@@ -79,7 +83,10 @@ const ProfilDropdown: React.FC<ProfilDropdownProps> = ({
           ) : (
             <>
               <div className="px-4 py-3">
-                <p className="text-sm leading-5">Not signed in</p>
+                <p className="text-sm leading-5">Not signed </p>
+                <Link href="/login" className="text-blue-500 hover:underline">
+                  Login
+                </Link>
               </div>
             </>
           )}
