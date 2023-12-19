@@ -3,7 +3,6 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
 import { JwtTokenManager } from "./jwtManager";
 
-
 interface WrapperProps {
   // Ajoutez les propriétés du composant enveloppé ici
 }
@@ -25,12 +24,13 @@ const withAuth = <P extends object>(
     useEffect(() => {
       // Vérifier ici si l'utilisateur est connecté
       const isAuthenticated = checkIfUserIsAuthenticated();
+      console.log(isAuthenticated);
 
       // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
       if (!isAuthenticated) {
         router.push("/login"); // Remplacez '/login' par le chemin de votre page de connexion
       }
-    }, []);
+    }, [router]);
 
     // Si l'utilisateur est connecté, renvoyer le composant enveloppé
     return <WrappedComponent {...props} />;
