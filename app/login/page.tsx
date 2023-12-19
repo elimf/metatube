@@ -7,7 +7,6 @@ import { passwordRegex } from "@/utils/regex";
 import { Login } from "@/types/auth";
 import { apiLogin } from "@/api/auth/login";
 import showToast from "@/utils/toast";
-import withAuth from "@/utils/authManager";
 
 const resolver: Resolver<Login> = async (values) => {
   return {
@@ -155,4 +154,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default withAuth(Login);
+export default Login;
