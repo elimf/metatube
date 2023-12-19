@@ -1,16 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler, Resolver } from "react-hook-form";
+import Link from "next/link";
+import { passwordRegex } from "@/utils/regex";
+import { Login } from "@/types/auth";
+import { apiLogin } from "@/api/auth/login";
+import showToast from "@/utils/toast";
 
-type FormDataLogin = {
-  email: string;
-  password: string;
-};
-
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-const resolver: Resolver<FormDataLogin> = async (values) => {
+const resolver: Resolver<Login> = async (values) => {
   return {
     values: values.email && values.password ? values : {},
     errors: {
@@ -30,10 +28,36 @@ const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
-  } = useForm<FormDataLogin>({ resolver });
+  } = useForm<Login>({ resolver });
   const [showPassword, setShowPassword] = useState(false);
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const router = useRouter();
+  const onSubmit: SubmitHandler<Login> = async (data) => {
+    clearErrors();
+    const result = await apiLogin(data);
+
+    switch (result.statusCode) {
+      case 401:
+        setError("password", {
+          type: "server",
+        });
+        setError("email", {
+          type: "server",
+        });
+        showToast("Incorrect email or password. Please try again.", "warning");
+        break;
+      case 201:
+        showToast(result.message, "success", () => router.push("/"));
+        break;
+      case 500:
+        showToast(result.message, "error");
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -44,7 +68,7 @@ const Login: React.FC = () => {
               LogIn
             </span>
           </h2>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-6">
               <label
                 htmlFor="email"
@@ -113,16 +137,16 @@ const Login: React.FC = () => {
               </button>
             </div>
             <div className="text-center mt-4">
-              <a href="#" className="text-gray-600 hover:underline">
+              <Link href="#" className="text-gray-600 hover:underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </form>
           <p className="text-center text-gray-600 mt-6">
             Don&#39;t have an account?{" "}
-            <a href="#" className="text-blue-500 hover:underline">
+            <Link href="/register" className="text-blue-500 hover:underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
