@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
+import jwt, { JwtPayload } from "jsonwebtoken";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const JWT_SECRET = process.env.AUTH_SECRET ? process.env.AUTH_SECRET : "";
 
 export class JwtTokenManager {
   private accessTokenCookieName = "accessToken";
@@ -7,10 +9,16 @@ export class JwtTokenManager {
 
   // Stocke le token dans les cookies
   public setToken(token: string): void {
-    Cookies.set(this.accessTokenCookieName , token, { expires: 7 }); // Expire dans 7 jours, ajustez selon vos besoins
+    Cookies.set(this.accessTokenCookieName, token, {
+      expires: 7,
+      path: "/",
+    });
   }
   public setRefreshToken(tokenRefresh: string): void {
-    Cookies.set(this.refreshTokenCookieName , tokenRefresh, { expires: 7 });
+    Cookies.set(this.refreshTokenCookieName, tokenRefresh, {
+      expires: 7,
+      path: "/",
+    });
   }
 
   // Récupère le token depuis les cookies
@@ -18,25 +26,30 @@ export class JwtTokenManager {
     return Cookies.get(this.accessTokenCookieName );
   }
   public getTokenRefresh(): string | undefined {
-    return Cookies.get(this.refreshTokenCookieName );
+    return Cookies.get(this.refreshTokenCookieName);
   }
 
   // Supprime le token des cookies
   public removeToken(): void {
-    Cookies.remove(this.accessTokenCookieName );
+    Cookies.remove(this.accessTokenCookieName);
   }
   public removeTokenRefresh(): void {
-    Cookies.remove(this.refreshTokenCookieName );
+    Cookies.remove(this.refreshTokenCookieName);
   }
   public cleaner(): void {
-    Cookies.remove(this.accessTokenCookieName );
-    Cookies.remove(this.refreshTokenCookieName );
+    Cookies.remove(this.accessTokenCookieName);
+    Cookies.remove(this.refreshTokenCookieName);
   }
 
   public isTokenValid(token: string): boolean {
     if (!token) return false;
-    const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    return decodedToken.exp * 1000 > Date.now();
+    try {
+      const decodedToken = jwt.decode(token);
+      return true;
+    } catch (error) {
+      console.error("Erreur lors de la vérification du token :", error);
+      return false;
+    }
   }
 
   public async refreshToken(): Promise<string | null> {

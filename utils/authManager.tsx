@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
 import { JwtTokenManager } from "./jwtManager";
