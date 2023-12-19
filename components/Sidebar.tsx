@@ -11,15 +11,21 @@ import {
   ThumbUpIcon,
 } from "@heroicons/react/solid";
 import { Tooltip } from "react-tooltip";
+import { SidebarProps } from "@/types/props/SidebarProps";
+import { MenuItem } from "@/types/props/SidebarProps";
 
-const Sidebar = ({ isSidebarOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
   const [showMoreVideos, setShowMoreVideos] = useState(false);
   const [showMoreSubscriptions, setShowMoreSubscriptions] = useState(false);
 
-  const createMenuItem = (icon, title, onClick) => ({
-    icon: icon,
-    title: title,
-    onClick: onClick,
+  const createMenuItem = (
+    icon: JSX.Element,
+    title: string,
+    onClick: () => void
+  ): MenuItem => ({
+    icon,
+    title,
+    onClick,
   });
 
   const mainMenuItems = [
@@ -71,7 +77,12 @@ const Sidebar = ({ isSidebarOpen }) => {
     ),
   ];
 
-  const renderMenuItems = (items, showMore, setShowMore, title) => {
+  const renderMenuItems = (
+    items: MenuItem[],
+    showMore: boolean,
+    setShowMore: (value: boolean) => void,
+    title?: string
+  ) => {
     const initialDisplayedItems = items.slice(0, 4);
     const additionalItems = items.slice(4);
     const shouldDisplaySeeMore = !showMore && additionalItems.length > 0;
@@ -101,7 +112,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                         {menuItem.title}
                       </span>
                     </a>
-                    <Tooltip id={menuItem.title} effect="solid" place="right" />
+                    <Tooltip id={menuItem.title} place="right" />
                   </td>
                 </tr>
                 <tr>
@@ -150,11 +161,7 @@ const Sidebar = ({ isSidebarOpen }) => {
                             {menuItem.title}
                           </span>
                         </a>
-                        <Tooltip
-                          id={menuItem.title}
-                          effect="solid"
-                          place="right"
-                        />
+                        <Tooltip id={menuItem.title} place="right" />
                       </td>
                     </tr>
                   </React.Fragment>
@@ -189,7 +196,7 @@ const Sidebar = ({ isSidebarOpen }) => {
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-neutral-950">
         <ul className="space-y-2 font-medium">
-          {renderMenuItems(mainMenuItems, false, null)}
+          {renderMenuItems(mainMenuItems, false, () => {})}
           {renderMenuItems(
             videosMenuItems,
             showMoreVideos,
@@ -202,7 +209,7 @@ const Sidebar = ({ isSidebarOpen }) => {
             setShowMoreSubscriptions,
             "Subscriptions"
           )}
-          {renderMenuItems(explorerMenuItems, false, null, "Explorer")}
+          {renderMenuItems(explorerMenuItems, false, () => {}, "Explorer")}
         </ul>
       </div>
     </aside>

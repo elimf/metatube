@@ -6,8 +6,13 @@ import {
   BellIcon,
   VideoCameraIcon,
 } from "@heroicons/react/solid";
-
-const Navbar = ({ toggleSidebar, toggleDropdown, isDropdownOpen }) => {
+import ProfilDropdown from "./ProfilDropdown";
+import { NavbarProps } from "@/types/props/NavbarProps";
+const Navbar: React.FC<NavbarProps> = ({
+  toggleSidebar,
+  toggleDropdown,
+  isDropdownOpen,
+}) => {
   return (
     <nav className="fixed top-0 z-40 w-full bg-white border-b border-gray-200 dark:bg-neutral-950 dark:border-gray-700">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -67,71 +72,11 @@ const Navbar = ({ toggleSidebar, toggleDropdown, isDropdownOpen }) => {
             <BellIcon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
           </button>
 
-          <button
-            type="button"
-            className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
-            id="user-menu-button"
-            aria-expanded={isDropdownOpen}
-            onClick={toggleDropdown}
-          >
-            <span className="sr-only">Open user menu</span>
-            <Image
-              className="w-8 h-8 rounded-full"
-              src="/metatube.png"
-              alt="user photo"
-              width={32}
-              height={32}
-            />
-          </button>
-          {isDropdownOpen && (
-            <div
-              className="z-50 top-16 right-0 w-64 h-screen  absolute my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-neutral-900 dark:divide-gray-600"
-              id="user-dropdown"
-            >
-              <div className="px-4 py-3 ">
-                <span className="block text-sm text-gray-900 dark:text-white">
-                  Bonnie Green
-                </span>
-                <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-                  name@flowbite.com
-                </span>
-              </div>
-              <ul className="py-2" aria-labelledby="user-menu-button">
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Dashboard
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Earnings
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Sign out
-                  </a>
-                </li>
-              </ul>
-            </div>
-          )}
+          <ProfilDropdown
+            toggleDropdown={toggleDropdown}
+            isDropdownOpen={isDropdownOpen}
+            isAuthenticated={false}
+          />
         </div>
       </div>
     </nav>

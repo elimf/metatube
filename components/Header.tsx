@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar";
+import { HeaderProps } from "@/types/props/HeaderProps";
 
-const Header = ({ children }) => {
+const Header: React.FC<HeaderProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
