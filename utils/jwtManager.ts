@@ -1,58 +1,50 @@
-import Cookies from "js-cookie";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const JWT_SECRET = process.env.AUTH_SECRET ? process.env.AUTH_SECRET : "";
 
 export class JwtTokenManager {
-  private accessTokenCookieName = "accessToken";
-  private refreshTokenCookieName = "refreshToken";
+  private accessTokenStorageKey = "accessToken";
+  private refreshTokenStorageKey = "refreshToken";
 
-  // Stocke le token dans les cookies
+  // Stocke le token dans le localStorage
   public setToken(token: string): void {
-    Cookies.set(this.accessTokenCookieName, token, {
-      expires: 7,
-      path: "/",
-    });
+    localStorage.setItem(this.accessTokenStorageKey, token);
   }
   public setRefreshToken(tokenRefresh: string): void {
-    Cookies.set(this.refreshTokenCookieName, tokenRefresh, {
-      expires: 7,
-      path: "/",
-    });
+    localStorage.setItem(this.refreshTokenStorageKey, tokenRefresh);
   }
 
-  // Récupère le token depuis les cookies
-  public getToken(): string | undefined {
-    return Cookies.get(this.accessTokenCookieName);
+  // Récupère le token depuis le localStorage
+  public getToken(): string | null {
+    return localStorage.getItem(this.accessTokenStorageKey);
   }
-  public getTokenRefresh(): string | undefined {
-    return Cookies.get(this.refreshTokenCookieName);
+  public getTokenRefresh(): string | null {
+    return localStorage.getItem(this.refreshTokenStorageKey);
   }
 
-  // Supprime le token des cookies
+  // Supprime le token du localStorage
   public removeToken(): void {
-    Cookies.remove(this.accessTokenCookieName);
+    localStorage.removeItem(this.accessTokenStorageKey);
   }
   public removeTokenRefresh(): void {
-    Cookies.remove(this.refreshTokenCookieName);
+    localStorage.removeItem(this.refreshTokenStorageKey);
   }
   public cleaner(): void {
-    Cookies.remove(this.accessTokenCookieName);
-    Cookies.remove(this.refreshTokenCookieName);
+    localStorage.removeItem(this.accessTokenStorageKey);
+    localStorage.removeItem(this.refreshTokenStorageKey);
   }
 
   public isTokenValid(token: string): boolean {
     if (!token) return false;
     try {
-      jwt.decode(token);
+      jwt.verify(token, JWT_SECRET);
       return true;
     } catch (error) {
-      console.error("Erreur lors de la vérification du token :", error);
       return false;
     }
   }
 
-  public async refreshToken(): Promise<string | null> {
+  public async refreshToken(): Promise<void | null> {
     const token = this.getTokenRefresh();
     if (!token) {
       return null;
@@ -68,8 +60,8 @@ export class JwtTokenManager {
     if (response.ok) {
       const responseData = await response.json();
       const newToken = responseData.newToken;
-      this.setToken(newToken);
-      return newToken;
+      this.setToken(responseData.access_token);
+      this.setRefreshToken(responseData.refresh_token);
     } else {
       return null;
     }
