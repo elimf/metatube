@@ -1,3 +1,4 @@
+"use client";
 import jwt from "jsonwebtoken";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const JWT_SECRET = process.env.AUTH_SECRET ? process.env.AUTH_SECRET : "";
