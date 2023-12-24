@@ -8,7 +8,7 @@ import {
   explorerMenuItems,
   createMenuItem,
 } from "./MenuItemSidebar";
-import { UserIcon } from "@heroicons/react/solid";
+import { PlayIcon, UserIcon } from "@heroicons/react/solid";
 
 const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
   const [showMoreVideos, setShowMoreVideos] = useState(false);
@@ -23,6 +23,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
       () => console.log(`Subscription ${index + 1} Clicked`)
     )
   );
+  if (userInfo?.playlists) {
+    videosMenuItems.concat(
+      userInfo.playlists?.map((playlist, index) =>
+        createMenuItem(
+          <PlayIcon className="w-5 h-5" />,
+          playlist,
+          () => console.log(`Playlist ${index + 1} Clicked`)
+        )
+      )
+    );
+  }
+
   const renderMenuItems = (
     items: MenuItem[],
     showMore: boolean,

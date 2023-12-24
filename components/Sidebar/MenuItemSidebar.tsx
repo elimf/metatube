@@ -33,7 +33,7 @@ export const mainMenuItems = [
   ),
 ];
 
-export const videosMenuItems = [
+export let videosMenuItems = [
   createMenuItem(<PlayIcon className="w-5 h-5" />, "Your Channel", () =>
     console.log("Channel Clicked")
   ),
