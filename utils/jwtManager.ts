@@ -42,6 +42,7 @@ export class JwtTokenManager {
   public cleaner(): void {
     localStorage.removeItem(this.accessTokenStorageKey);
     localStorage.removeItem(this.refreshTokenStorageKey);
+    window.location.pathname = "/";
   }
 
   public isTokenValid(token: string): boolean {

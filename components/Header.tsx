@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar/Sidebar";
 import { HeaderProps } from "@/types/props/HeaderProps";
 import { apiUserInfo } from "@/api/user/userInfo";
 import { JwtTokenManager } from "@/utils/jwtManager";
