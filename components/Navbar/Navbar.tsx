@@ -6,8 +6,8 @@ import {
   BellIcon,
   VideoCameraIcon,
 } from "@heroicons/react/solid";
-import ProfilDropdown from "./ProfilDropdown";
-import { NavbarProps } from "@/types/props/NavbarProps";
+import ProfilDropdown from "./Dropdown/ProfilDropdown";
+import { NavbarProps } from "@/types/props/Navbar/NavbarProps";
 const Navbar: React.FC<NavbarProps> = ({
   toggleSidebar,
   toggleDropdown,

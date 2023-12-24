@@ -16,13 +16,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
   const [subscriptions, setSubscriptions] = useState(
     userInfo?.subscriptions || []
   );
-const subscriptionsMenuItems = subscriptions.map((_, index) =>
-  createMenuItem(
-    <UserIcon className="w-5 h-5" />,
-    `Subscription ${index + 1}`,
-    () => console.log(`Subscription ${index + 1} Clicked`)
-  )
-);
+  const subscriptionsMenuItems = subscriptions.map((_, index) =>
+    createMenuItem(
+      <UserIcon className="w-5 h-5" />,
+      `Subscription ${index + 1}`,
+      () => console.log(`Subscription ${index + 1} Clicked`)
+    )
+  );
   const renderMenuItems = (
     items: MenuItem[],
     showMore: boolean,

@@ -1,4 +1,4 @@
-import { UserInfo } from "../user/UserInfo";
+import { UserInfo } from "../../user/UserInfo";
 
 export interface ProfilDropdownProps {
   toggleDropdown: () => void;
