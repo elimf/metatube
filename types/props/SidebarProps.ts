@@ -8,7 +8,7 @@ export interface MenuItem {
 
 export interface SidebarProps {
   isSidebarOpen: boolean;
-  userInfo :UserInfo
+  userInfo :UserInfo | null;
 }
 
 export interface SidebarState {

@@ -4,5 +4,5 @@ export interface NavbarProps {
   toggleSidebar: () => void;
   toggleDropdown: () => void;
   isDropdownOpen: boolean;
-  userInfo: UserInfo;
+  userInfo: UserInfo | null;
 }
