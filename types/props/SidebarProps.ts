@@ -1,3 +1,5 @@
+import { UserInfo } from "../user/UserInfo";
+
 export interface MenuItem {
   icon: JSX.Element;
   title: string;
@@ -6,6 +8,7 @@ export interface MenuItem {
 
 export interface SidebarProps {
   isSidebarOpen: boolean;
+  userInfo :UserInfo
 }
 
 export interface SidebarState {

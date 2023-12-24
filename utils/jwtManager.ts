@@ -17,9 +17,18 @@ export class JwtTokenManager {
 
   // Récupère le token depuis le localStorage
   public getToken(): string | null {
+    if (typeof window === "undefined") {
+      // Check if window is defined (in a browser environment)
+      return null;
+    }
     return localStorage.getItem(this.accessTokenStorageKey);
   }
+
   public getTokenRefresh(): string | null {
+    if (typeof window === "undefined") {
+      // Check if window is defined (in a browser environment)
+      return null;
+    }
     return localStorage.getItem(this.refreshTokenStorageKey);
   }
 

@@ -14,9 +14,10 @@ import { Tooltip } from "react-tooltip";
 import { SidebarProps } from "@/types/props/SidebarProps";
 import { MenuItem } from "@/types/props/SidebarProps";
 
-const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen,userInfo }) => {
   const [showMoreVideos, setShowMoreVideos] = useState(false);
   const [showMoreSubscriptions, setShowMoreSubscriptions] = useState(false);
+  const [subscriptions, setSubscriptions] = useState(userInfo.subscriptions);
 
   const createMenuItem = (
     icon: JSX.Element,
@@ -41,8 +42,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
   ];
 
   const videosMenuItems = [
-    createMenuItem(<PlayIcon className="w-5 h-5" />, "Shorts", () =>
-      console.log("Shorts Clicked")
+    createMenuItem(<PlayIcon className="w-5 h-5" />, "Your Channel", () =>
+      console.log("Channel Clicked")
     ),
     createMenuItem(<CollectionIcon className="w-5 h-5" />, "Historical", () =>
       console.log("Historical Clicked")
@@ -60,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
     ),
   ];
 
-  const subscriptionsMenuItems = Array.from({ length: 6 }, (_, index) =>
+  const subscriptionsMenuItems = subscriptions.map((_, index) =>
     createMenuItem(
       <UserIcon className="w-5 h-5" />,
       `Subscription ${index + 1}`,
