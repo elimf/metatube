@@ -40,9 +40,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           showToast(res.message, "error");
           console.error("API Error:", res);
         } else {
-          // Handle successful response, res is of type UserInfo
           setUserInfo(res);
-          console.log(res);
         }
       });
     }
