@@ -13,18 +13,21 @@ const Navbar: React.FC<NavbarProps> = ({
   toggleDropdown,
   isDropdownOpen,
   userInfo,
+  withSidebar,
+  withSearch,
+  withNotifications,
+  withUpload
 }) => {
   return (
     <nav className="fixed top-0 z-40 w-full bg-white border-b border-gray-200 dark:bg-neutral-950 dark:border-gray-700">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="w-1/12 flex items-center justify-between ">
-          <button type="button" className="text-sm " onClick={toggleSidebar}>
-            <MenuIcon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-          </button>
-          <a
-            href="https://flowbite.com/"
-            className="flex items-center space-x-1 ml-10  "
-          >
+          {withSidebar && (
+            <button type="button" className="text-sm " onClick={toggleSidebar}>
+              <MenuIcon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+            </button>
+          )}
+          <a href="/" className="flex items-center space-x-1 ml-10  ">
             <Image
               src="/metatube.png"
               className="h-8"
@@ -38,7 +41,11 @@ const Navbar: React.FC<NavbarProps> = ({
           </a>
         </div>
 
-        <form className="w-6/12 flex items-center justify-between ">
+        <form
+          className={`w-6/12 flex items-center justify-between ${
+            withSearch ? "" : "invisible"
+          }`}
+        >
           <div className="relative w-full">
             <input
               type="search"
@@ -63,14 +70,20 @@ const Navbar: React.FC<NavbarProps> = ({
             className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
             //onClick={handleAddVideoClick}
           >
-            <VideoCameraIcon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+            <VideoCameraIcon
+              className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                withUpload ? "" : "invisible"
+              }`}
+            />
           </button>
           <button
             type="button"
             className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
             //onClick={handleNotificationsClick}
           >
-            <BellIcon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+            <BellIcon
+              className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${withNotifications ? "" : "invisible"} `}
+            />
           </button>
 
           <ProfilDropdown

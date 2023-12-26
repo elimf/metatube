@@ -5,4 +5,8 @@ export interface NavbarProps {
   toggleDropdown: () => void;
   isDropdownOpen: boolean;
   userInfo: UserInfo | null;
+  withSidebar?: boolean;
+  withSearch?: boolean;
+  withNotifications?: boolean;
+  withUpload?: boolean;
 }

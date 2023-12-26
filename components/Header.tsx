@@ -6,15 +6,14 @@ import { HeaderProps } from "@/types/props/HeaderProps";
 import { apiUserInfo } from "@/api/user/userinfo";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import { UserInfo } from "@/types/user/UserInfo";
-import { ApiResponse } from "@/types/api/ApiResponse";
-import showToast from "@/utils/toast";
 import { apiRefresh } from "@/api/auth/refresh";
-const tokenManager = new JwtTokenManager();
-const token = tokenManager.getToken();
-const Header: React.FC<HeaderProps> = ({ children }) => {
+
+const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const tokenManager = new JwtTokenManager();
+  const token = tokenManager.getToken();
+  
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
@@ -22,14 +21,10 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
-  const [userInfo, setUserInfo] = useState<UserInfo|null>({
+  const [userInfo, setUserInfo] = useState<UserInfo | null>({
     username: "",
     avatar: "",
-    channel: {
-      _id: "",
-      banner: "",
-      channelName: "",
-    },
+    channel: "",
     subscriptions: [],
     playlists: [],
     history: [],
@@ -41,18 +36,16 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
     const fetchData = async () => {
       if (token) {
         const res = await apiUserInfo(token);
-        console.log(res);
-        
         if (
           "statusCode" in res &&
           res.statusCode === 401 &&
           res.message === "Invalid JWT token"
         ) {
-           apiRefresh();
+          apiRefresh();
         } else if (!("statusCode" in res)) {
           setUserInfo(res);
-        }else{
-        setUserInfo(null);
+        } else {
+          setUserInfo(null);
         }
       }
     };
@@ -64,16 +57,24 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
 
   return (
     <div className="flex h-screen">
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-col flex-1 overflow-hidden ">
         <Navbar
           toggleSidebar={toggleSidebar}
           toggleDropdown={toggleDropdown}
           isDropdownOpen={isDropdownOpen}
           userInfo={userInfo}
+          withSidebar={withSidebar}
+          withSearch={withSidebar}
+          withNotifications={withSidebar}
+          withUpload={withSidebar}
         />
-        <Sidebar isSidebarOpen={isSidebarOpen} userInfo={userInfo} />
+        {withSidebar && (
+          <Sidebar isSidebarOpen={isSidebarOpen} userInfo={userInfo} />
+        )}
         <main
-          className={`flex-1 overflow-x-hidden overflow-y-auto  ${mainMargin}`}
+          className={`flex-1 overflow-x-hidden overflow-y-auto ${
+            withSidebar ? mainMargin : ""
+          }`}
         >
           {children}
         </main>

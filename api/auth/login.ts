@@ -13,8 +13,7 @@ export const apiLogin = async (credentialLogin: Login): Promise<any> => {
   });
   if (response.ok) {
     const responseBody = await response.json();
-    console.log(responseBody);
-
+    
     tokenManager.cleaner();
     tokenManager.setToken(responseBody.access_token);
     tokenManager.setRefreshToken(responseBody.refresh_token);
