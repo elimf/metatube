@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
 import { HeaderProps } from "@/types/props/HeaderProps";
-import { apiUserInfo } from "@/api/user/userInfo";
+import { apiUserInfo } from "@/api/user/userinfo";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import { UserInfo } from "@/types/user/UserInfo";
 import { ApiResponse } from "@/types/api/ApiResponse";
 import showToast from "@/utils/toast";
+import { apiRefresh } from "@/api/auth/refresh";
 const tokenManager = new JwtTokenManager();
 const token = tokenManager.getToken();
 const Header: React.FC<HeaderProps> = ({ children }) => {
@@ -21,10 +22,14 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
-  const [userInfo, setUserInfo] = useState<UserInfo>({
+  const [userInfo, setUserInfo] = useState<UserInfo|null>({
     username: "",
     avatar: "",
-    channel: "",
+    channel: {
+      _id: "",
+      banner: "",
+      channelName: "",
+    },
     subscriptions: [],
     playlists: [],
     history: [],
@@ -33,18 +38,27 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    // Call apiUserInfo here before the page loads
-    if (token) {
-      apiUserInfo(token).then((res: UserInfo | ApiResponse) => {
-        if ("statusCode" in res) {
-          showToast(res.message, "error");
-          console.error("API Error:", res);
-        } else {
+    const fetchData = async () => {
+      if (token) {
+        const res = await apiUserInfo(token);
+        console.log(res);
+        
+        if (
+          "statusCode" in res &&
+          res.statusCode === 401 &&
+          res.message === "Invalid JWT token"
+        ) {
+           apiRefresh();
+        } else if (!("statusCode" in res)) {
           setUserInfo(res);
+        }else{
+        setUserInfo(null);
         }
-      });
-    }
-  }, []);
+      }
+    };
+
+    fetchData();
+  }, [token]);
 
   const mainMargin = isSidebarOpen ? "ml-16" : "ml-48";
 

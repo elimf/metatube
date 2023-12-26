@@ -16,11 +16,10 @@ export const apiUserInfo = async (
   if (response.ok) {
     return await response.json();
   }
-
-  // Handle the case where fetching user information fails
+const responseBody = await response.json();
   return {
-    statusCode: response.status,
-    message: "Failed to fetch user information",
-    error: "Error message here",
+    statusCode: responseBody.statusCode,
+    message:responseBody.message,
+    error: responseBody.error,
   };
 };
