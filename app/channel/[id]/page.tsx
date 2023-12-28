@@ -11,12 +11,12 @@ const ChannelPage = () => {
   const pathname = usePathname();
   const [channelId, setChannelId] = useState<string | null>(null);
   const [channelData, setChannelData] = useState<Channel>({
-    banner: "https://via.placeholder.com/1200x200",
     icon: "https://via.placeholder.com/400",
     channelName: "ReallyCoolVlogs",
+    playlists: [],
     isVerified: true,
     subscribers: "1,7M",
-    videos: "1,000",
+    videos: [],
     description:
       "This is a really cool channel that you should subscribe to. It has really cool vlogs and stuff. Subscribe now!",
   });
@@ -30,8 +30,9 @@ const ChannelPage = () => {
     setChannelId(newChannelId);
     if (channelId) {
       apiChannelGetById(channelId).then((res) => {
-        console.log(res);
-        //setChannelData(res);
+        if (res) {
+          setChannelData(res);
+        }
       });
     }
   }, [channelId, pathname]);
@@ -40,9 +41,7 @@ const ChannelPage = () => {
     <Header withSidebar={true}>
       <div className="flex-grow mt-24 px-8">
         <ChannelInfo channelData={channelData} />
-        <section>
-          <TabBar />
-        </section>
+          <TabBar channelData={channelData} />
       </div>
     </Header>
   );

@@ -2,8 +2,8 @@ export interface Channel {
   channelName: string;
   description: string;
   subscribers: string;
-  videos: string;
-  banner: string;
+  videos: [];
   isVerified: boolean;
+  playlists: [];
   icon: string;
 }

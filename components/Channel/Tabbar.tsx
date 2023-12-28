@@ -4,8 +4,11 @@ import VideoGrid from "../Video/VideoGrid";
 import ShortGrid from "../Video/ShortGrid";
 import Home from "./Home";
 import PlaylistGrid from "../Video/PlaylistGrid";
+import { Channel } from "@/types/channel";
 
-const TabBar = () => {
+const TabBar : React.FC<{ channelData: Channel }> = ({
+  channelData,
+}) => {
   const [activeTab, setActiveTab] = useState("tab1");
 
   const tabs = [
@@ -13,23 +16,20 @@ const TabBar = () => {
       id: "tab1",
       label: "Welcome",
       content: (
-        <Home
-          videoItems={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-          shortItems={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-        />
+        <Home videoItems={channelData.videos} shortItems={channelData.videos} />
       ),
       accessible: true,
     },
     {
       id: "tab2",
       label: "Videos",
-      content: <VideoGrid items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />,
+      content: <VideoGrid items={channelData.videos} />,
       accessible: true,
     },
     {
       id: "tab3",
       label: "Shorts",
-      content: <ShortGrid items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />,
+      content: <ShortGrid items={channelData.videos} />,
       accessible: true,
     },
     {
@@ -41,9 +41,7 @@ const TabBar = () => {
     {
       id: "tab5",
       label: "Playlists",
-      content: (
-        <PlaylistGrid playlists={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
-      ),
+      content: <PlaylistGrid playlists={channelData.playlists} />,
       accessible: true,
     },
     {

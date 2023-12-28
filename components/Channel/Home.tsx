@@ -12,7 +12,7 @@ const Home = ({ videoItems, shortItems }: HomeProps) => {
   return (
     <div>
       <div className="flex items-center ">
-          <VideoSkeleton item={1} />
+          <VideoSkeleton item={videoItems} />
       </div>
 
       <hr className="my-4 border-t border-gray-300" />

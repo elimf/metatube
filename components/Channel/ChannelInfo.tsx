@@ -8,13 +8,6 @@ const ChannelInfo: React.FC<{ channelData: Channel }> = ({
 }) => {
   return (
     <section>
-      <Image
-        src={channelData.icon}
-        alt={channelData.channelName}
-        className="w-full h-64 object-cover rounded-3xl"
-        width={1200}
-        height={20}
-      />
       <div className="flex items-center mt-8">
         <Image
           src={channelData.icon}
@@ -32,7 +25,7 @@ const ChannelInfo: React.FC<{ channelData: Channel }> = ({
           </h1>
           <p className="text-gray-600">
             {channelData.subscribers.toLocaleString()} subscribers{" "}
-            {channelData.videos.toLocaleString()} videos
+            {channelData.videos.length} videos
           </p>
           <p className="text-gray-600">{channelData.description}</p>
         </div>
