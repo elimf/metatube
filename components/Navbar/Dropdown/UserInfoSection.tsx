@@ -29,7 +29,7 @@ export const UserInfoSection: React.FC<{ userInfo: UserInfo }> = ({ userInfo }) 
         {userInfo.channel ? (
           <Link
             className="block text-sm text-gray-900 dark:text-white"
-            href={"/Channel/" + userInfo.channel._id}
+            href={"/channel/" + userInfo.channel}
           >
             Display my channel
           </Link>

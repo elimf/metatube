@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { ProfilDropdownProps } from "@/types/props/Navbar/ProfilDropdownProps";
 import { checkIfUserIsAuthenticated } from "@/utils/authManager";
-import MenuList from "./MenuItem";
+import MenuList from "./MenuList";
 import { NotSignedInSection } from "./NotSigned";
 import { UserInfoSection } from "./UserInfoSection";
 
