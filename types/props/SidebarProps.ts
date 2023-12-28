@@ -1,6 +1,6 @@
 import { UserInfo } from "../user/UserInfo";
 
-export interface MenuItem {
+export interface MenuItemProps {
   icon: JSX.Element;
   title: string;
   onClick: () => void;

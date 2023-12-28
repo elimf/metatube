@@ -1,5 +1,5 @@
 // sidebarData.tsx
-import { MenuItem } from "@/types/props/SidebarProps";
+import { MenuItemProps } from "@/types/props/SidebarProps";
 import {
   HomeIcon,
   PlayIcon,
@@ -8,14 +8,13 @@ import {
   DocumentTextIcon,
   MusicNoteIcon,
   GlobeAltIcon,
-  UserIcon,
   ThumbUpIcon,
 } from "@heroicons/react/solid";
 export const createMenuItem = (
   icon: JSX.Element,
   title: string,
   onClick: () => void
-): MenuItem => ({
+): MenuItemProps => ({
   icon,
   title,
   onClick,

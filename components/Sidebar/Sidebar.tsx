@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { SidebarProps } from "@/types/props/SidebarProps";
-import { MenuItem } from "@/types/props/SidebarProps";
+import { MenuItemProps } from "@/types/props/SidebarProps";
 import {
   mainMenuItems,
   videosMenuItems,
@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
   }
 
   const renderMenuItems = (
-    items: MenuItem[],
+    items: MenuItemProps[],
     showMore: boolean,
     setShowMore: (value: boolean) => void,
     title?: string
