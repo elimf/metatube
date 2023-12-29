@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect,useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
 import { HeaderProps } from "@/types/props/HeaderProps";
@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const tokenManager = new JwtTokenManager();
   const token = tokenManager.getToken();
-  
+
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
@@ -31,7 +31,6 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
     likedVideos: [],
     timestamp: "",
   });
-const memoizedToken = useMemo(() => token, [token]);
   useEffect(() => {
     const fetchData = async () => {
       if (token) {
@@ -51,7 +50,7 @@ const memoizedToken = useMemo(() => token, [token]);
     };
 
     fetchData();
-  }, [memoizedToken]);
+  }, [token]);
 
   const mainMargin = isSidebarOpen ? "ml-16" : "ml-48";
 
