@@ -3,7 +3,8 @@ import { UserInfo } from "../user/UserInfo";
 export interface MenuItemProps {
   icon: JSX.Element;
   title: string;
-  onClick: () => void;
+  path: string;
+  isSidebarOpen?: boolean;
 }
 
 export interface SidebarProps {

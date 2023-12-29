@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import TabBar from "@/components/Channel/Tabbar";
 import ChannelInfo from "@/components/Channel/ChannelInfo";
@@ -11,14 +11,13 @@ const ChannelPage = () => {
   const pathname = usePathname();
   const [channelId, setChannelId] = useState<string | null>(null);
   const [channelData, setChannelData] = useState<Channel>({
-    icon: "https://via.placeholder.com/400",
-    channelName: "ReallyCoolVlogs",
+    icon: "",
+    channelName: "",
     playlists: [],
     isVerified: true,
-    subscribers: "1,7M",
+    subscribers: "",
     videos: [],
-    description:
-      "This is a really cool channel that you should subscribe to. It has really cool vlogs and stuff. Subscribe now!",
+    description: "",
   });
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const ChannelPage = () => {
     <Header withSidebar={true}>
       <div className="flex-grow mt-24 px-8">
         <ChannelInfo channelData={channelData} />
-          <TabBar channelData={channelData} />
+        <TabBar channelData={channelData} />
       </div>
     </Header>
   );
