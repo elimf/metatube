@@ -1,15 +1,14 @@
 import { UserInfo } from "../user/UserInfo";
 
-export interface MenuItemProps {
+export interface MenuItem {
   icon: JSX.Element;
   title: string;
-  path: string;
-  isSidebarOpen?: boolean;
+  onClick: () => void;
 }
 
 export interface SidebarProps {
   isSidebarOpen: boolean;
-  userInfo :UserInfo | null;
+  userInfo: UserInfo | null;
 }
 
 export interface SidebarState {
