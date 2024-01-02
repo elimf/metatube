@@ -26,6 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
   const [subscriptions, setSubscriptions] = useState(
     userInfo?.subscriptions || []
   );
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const generateMainMenuItems = () => [
       createMenuItem(
@@ -85,7 +86,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
     setMainMenuItems(generateMainMenuItems());
     setVideosMenuItems(generateVideosMenuItems());
     setExplorerMenuItems(generateExplorerMenuItems());
-
+    setSubscriptions(userInfo?.subscriptions || []);
+    setIsLoading(false); 
     // Vous pouvez faire d'autres choses avec les tableaux générés ici
   }, [userInfo, subscriptions, router]);
 
@@ -214,22 +216,34 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
       aria-label="Sidebar"
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-neutral-950">
-        <ul className="space-y-2 font-medium">
-          {renderMenuItems(mainMenuItems, false, () => {})}
-          {renderMenuItems(
-            videosMenuItems,
-            showMoreVideos,
-            setShowMoreVideos,
-            "You"
-          )}
-          {renderMenuItems(
-            subscriptionsMenuItems,
-            showMoreSubscriptions,
-            setShowMoreSubscriptions,
-            "Subscriptions"
-          )}
-          {renderMenuItems(explorerMenuItems, false, () => {}, "Explorer")}
-        </ul>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full">
+            <div className="flex justify-center items-center h-screen">
+              <div className="relative inline-flex">
+                <div className="w-8 h-8 bg-blue-500 rounded-full"></div>
+                <div className="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-ping"></div>
+                <div className="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <ul className="space-y-2 font-medium">
+            {renderMenuItems(mainMenuItems, false, () => {})}
+            {renderMenuItems(
+              videosMenuItems,
+              showMoreVideos,
+              setShowMoreVideos,
+              "You"
+            )}
+            {renderMenuItems(
+              subscriptionsMenuItems,
+              showMoreSubscriptions,
+              setShowMoreSubscriptions,
+              "Subscriptions"
+            )}
+            {renderMenuItems(explorerMenuItems, false, () => {}, "Explorer")}
+          </ul>
+        )}
       </div>
     </aside>
   );
