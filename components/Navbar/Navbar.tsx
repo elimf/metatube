@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   MenuIcon,
@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/solid";
 import ProfilDropdown from "./Dropdown/ProfilDropdown";
 import { NavbarProps } from "@/types/props/Navbar/NavbarProps";
+import AddVideoModal from "@/components/Video/AddVideo";
 const Navbar: React.FC<NavbarProps> = ({
   toggleSidebar,
   toggleDropdown,
@@ -18,6 +19,15 @@ const Navbar: React.FC<NavbarProps> = ({
   withNotifications,
   withUpload,
 }) => {
+  const [isAddVideoModalOpen, setAddVideoModalOpen] = useState(false);
+
+  const handleAddVideoClick = () => {
+    setAddVideoModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setAddVideoModalOpen(false);
+  };
   return (
     <nav className="fixed top-0 z-40 w-full bg-white border-b border-gray-200 dark:bg-neutral-950 dark:border-gray-700">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -66,17 +76,23 @@ const Navbar: React.FC<NavbarProps> = ({
 
         <div className="w-1/12 flex items-center justify-between ">
           {userInfo?.channel && (
-            <button
-              type="button"
-              className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
-              //onClick={handleAddVideoClick}
-            >
-              <VideoCameraIcon
-                className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
-                  withUpload ? "" : "invisible"
-                }`}
+            <>
+              <button
+                type="button"
+                className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
+                onClick={handleAddVideoClick}
+              >
+                <VideoCameraIcon
+                  className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                    withUpload ? "" : "invisible"
+                  }`}
+                />
+              </button>
+              <AddVideoModal
+                isOpen={isAddVideoModalOpen}
+                onClose={closeModal}
               />
-            </button>
+            </>
           )}
           {userInfo && (
             <button
