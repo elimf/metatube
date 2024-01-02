@@ -4,6 +4,7 @@ export interface MenuItem {
   icon: JSX.Element;
   title: string;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 export interface SidebarProps {
@@ -15,3 +16,5 @@ export interface SidebarState {
   showMoreVideos: boolean;
   showMoreSubscriptions: boolean;
 }
+
+

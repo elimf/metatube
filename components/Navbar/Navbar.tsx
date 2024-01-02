@@ -16,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({
   withSidebar,
   withSearch,
   withNotifications,
-  withUpload
+  withUpload,
 }) => {
   return (
     <nav className="fixed top-0 z-40 w-full bg-white border-b border-gray-200 dark:bg-neutral-950 dark:border-gray-700">
@@ -65,26 +65,32 @@ const Navbar: React.FC<NavbarProps> = ({
         </form>
 
         <div className="w-1/12 flex items-center justify-between ">
-          <button
-            type="button"
-            className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
-            //onClick={handleAddVideoClick}
-          >
-            <VideoCameraIcon
-              className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
-                withUpload ? "" : "invisible"
-              }`}
-            />
-          </button>
-          <button
-            type="button"
-            className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
-            //onClick={handleNotificationsClick}
-          >
-            <BellIcon
-              className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${withNotifications ? "" : "invisible"} `}
-            />
-          </button>
+          {userInfo?.channel && (
+            <button
+              type="button"
+              className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
+              //onClick={handleAddVideoClick}
+            >
+              <VideoCameraIcon
+                className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                  withUpload ? "" : "invisible"
+                }`}
+              />
+            </button>
+          )}
+          {userInfo && (
+            <button
+              type="button"
+              className="flex text-sm bg-neutral-950 rounded-full md:me-0  "
+              //onClick={handleNotificationsClick}
+            >
+              <BellIcon
+                className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                  withNotifications ? "" : "invisible"
+                } `}
+              />
+            </button>
+          )}
 
           <ProfilDropdown
             toggleDropdown={toggleDropdown}

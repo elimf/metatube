@@ -1,21 +1,94 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  HomeIcon,
+  PlayIcon,
+  StarIcon,
+  CollectionIcon,
+  DocumentTextIcon,
+  MusicNoteIcon,
+  GlobeAltIcon,
+  UserIcon,
+  ThumbUpIcon,
+} from "@heroicons/react/solid";
 import { Tooltip } from "react-tooltip";
 import { SidebarProps } from "@/types/props/SidebarProps";
 import { MenuItem } from "@/types/props/SidebarProps";
-import {
-  mainMenuItems,
-  videosMenuItems,
-  explorerMenuItems,
-  createMenuItem,
-} from "./MenuItemSidebar";
-import { UserIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/navigation";
+import { createMenuItem } from "./MenuItemSidebar";
 
 const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
+  const router = useRouter();
   const [showMoreVideos, setShowMoreVideos] = useState(false);
   const [showMoreSubscriptions, setShowMoreSubscriptions] = useState(false);
+  const [mainMenuItems, setMainMenuItems] = useState<MenuItem[]>([]);
+  const [videosMenuItems, setVideosMenuItems] = useState<MenuItem[]>([]);
+  const [explorerMenuItems, setExplorerMenuItems] = useState<MenuItem[]>([]);
   const [subscriptions, setSubscriptions] = useState(
     userInfo?.subscriptions || []
   );
+  useEffect(() => {
+    const generateMainMenuItems = () => [
+      createMenuItem(
+        <HomeIcon className="w-5 h-5" />,
+        "Welcome",
+        () => router.push("/") // Remplacez '/welcome' par le chemin de votre page
+      ),
+      createMenuItem(
+        <PlayIcon className="w-5 h-5" />,
+        "Shorts",
+        () => router.push("/shorts") // Remplacez '/shorts' par le chemin de votre page
+      ),
+      createMenuItem(
+        <StarIcon className="w-5 h-5" />,
+        "Subscriptions",
+        () => router.push("/subscriptions") // Remplacez '/subscriptions' par le chemin de votre page
+      ),
+    ];
+    const generateVideosMenuItems = () => {
+      const items = [];
+
+      if (userInfo?.channel) {
+        // Si l'utilisateur est connecté
+        items.push(
+          createMenuItem(<PlayIcon className="w-5 h-5" />, "Your Channel", () =>
+            router.push(`channel/${userInfo.channel}`)
+          )
+        );
+      }
+
+      items.push(
+        createMenuItem(
+          <CollectionIcon className="w-5 h-5" />,
+          "Historical",
+          () => router.push("/history") // Remplacez '/historical' par le chemin de votre page
+        ),
+        createMenuItem(<StarIcon className="w-5 h-5" />, "To watch later", () =>
+          router.push("/playlist?list=WL")
+        ),
+        createMenuItem(<ThumbUpIcon className="w-5 h-5" />, "Liked Video", () =>
+          router.push("/playlist?list=LL")
+        )
+      );
+
+      return items;
+    };
+
+    const generateExplorerMenuItems = () => [
+      createMenuItem(<GlobeAltIcon className="w-5 h-5" />, "Trends", () =>
+        router.push("/")
+      ),
+      createMenuItem(<MusicNoteIcon className="w-5 h-5" />, "Music", () =>
+        router.push("/")
+      ),
+    ];
+
+    setMainMenuItems(generateMainMenuItems());
+    setVideosMenuItems(generateVideosMenuItems());
+    setExplorerMenuItems(generateExplorerMenuItems());
+
+    // Vous pouvez faire d'autres choses avec les tableaux générés ici
+  }, [userInfo, subscriptions, router]);
+
   const subscriptionsMenuItems = subscriptions.map((_, index) =>
     createMenuItem(
       <UserIcon className="w-5 h-5" />,
@@ -48,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
                 <tr>
                   <td>
                     <a
-                      className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  group cursor-pointer"
                       onClick={menuItem.onClick}
                       data-tooltip-content={menuItem.title}
                       data-tooltip-id={menuItem.title}
@@ -77,7 +150,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
         {shouldDisplaySeeMore && !isSidebarOpen && (
           <>
             <button
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer group"
               onClick={() => setShowMore(!showMore)}
             >
               <span className="ms-3">See More</span>
@@ -95,7 +168,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
                     <tr>
                       <td>
                         <a
-                          className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                          className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  group cursor-pointer"
                           onClick={menuItem.onClick}
                           data-tooltip-content={menuItem.title}
                           data-tooltip-id={menuItem.title}
@@ -117,7 +190,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
             {shouldDisplaySeeLess && !isSidebarOpen && (
               <>
                 <button
-                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
                   onClick={() => setShowMore(!showMore)}
                 >
                   <span className="ms-3">See Less</span>
