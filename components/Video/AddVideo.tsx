@@ -123,7 +123,7 @@ const AddVideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
     console.log(data);
      if (token) {
        const result = await uploadVideo(data, token);
-       //await handleApiResult(result);
+       await handleApiResult(result);
      } else {
        showToast("An error has occurred, please try again later. ", "error");
        const refreshResult = await apiRefresh();
