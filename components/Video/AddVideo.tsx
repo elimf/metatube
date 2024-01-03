@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import { VideoUpload } from "@/types/video/create";
 import { VideoModalProps } from "@/types/props/Modal/VideoModalProps";
 import Image from "next/image";
-import {uploadVideo} from "@/api/video/upload";
+import { uploadVideo } from "@/api/video/upload";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import showToast from "@/utils/toast";
 import { apiRefresh } from "@/api/auth/refresh";
@@ -40,7 +40,7 @@ const resolver: Resolver<VideoUpload> = async (values) => {
               message: "Please enter a video title",
             },
           }),
-      ...(isValid || values.thumbnailFile 
+      ...(isValid || values.thumbnailFile
         ? {}
         : {
             thumbnailFile: {
@@ -68,8 +68,8 @@ const AddVideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
     video: null,
     thumbnail: null,
   });
- const tokenManager = new JwtTokenManager();
- const token = tokenManager.getToken();
+  const tokenManager = new JwtTokenManager();
+  const token = tokenManager.getToken();
   const {
     register,
     handleSubmit,
@@ -99,49 +99,46 @@ const AddVideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-      const handleApiResult = async (result: {
-        statusCode: any;
-        message: string;
-      }) => {
-        switch (result.statusCode) {
-          case 400:
-            //setError("channelName", { type: "server" });
-            showToast(result.message, "warning");
-            break;
-          case 201:
-            showToast(result.message, "success");
-            break;
-          case 500:
-            showToast(result.message, "error");
-            break;
-          default:
-            break;
-        }
-      };
+  const handleApiResult = async (result: {
+    statusCode: any;
+    message: string;
+  }) => {
+    switch (result.statusCode) {
+      case 400:
+        //setError("channelName", { type: "server" });
+        showToast(result.message, "warning");
+        break;
+      case 201:
+        showToast(result.message, "success");
+        break;
+      case 500:
+        showToast(result.message, "error");
+        break;
+      default:
+        break;
+    }
+  };
   const onSubmit: SubmitHandler<VideoUpload> = async (data) => {
     clearErrors();
     console.log(data);
-     if (token) {
-       const result = await uploadVideo(data, token);
-       await handleApiResult(result);
-     } else {
-       showToast("An error has occurred, please try again later. ", "error");
-       const refreshResult = await apiRefresh();
+    if (token) {
+      const result = await uploadVideo(data, token);
+      await handleApiResult(result);
+    } else {
+      showToast("An error has occurred, please try again later. ", "error");
+      const refreshResult = await apiRefresh();
 
-       if (refreshResult.statusCode === 200) {
-         if (token) {
-           const result = await uploadVideo(data, token);
-           await handleApiResult(result);
-         } else {
-           showToast(
-             "An error has occurred, please try again later. ",
-             "error"
-           );
-         }
-       }
-     }
-  
-   // closeModal();
+      if (refreshResult.statusCode === 200) {
+        if (token) {
+          const result = await uploadVideo(data, token);
+          await handleApiResult(result);
+        } else {
+          showToast("An error has occurred, please try again later. ", "error");
+        }
+      }
+    }
+
+    // closeModal();
   };
 
   return (
