@@ -1,5 +1,4 @@
-export interface Video {
-  _id: string;
+export interface VideoDetail {
   title: string;
   description: string;
   thumbnail: string;

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Video } from "@/types/video/video";
+import { dateFormat } from "@/utils/dateFormat";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -59,7 +60,9 @@ const VideoSkeleton = ({ item }: { item: Video }) => {
       </div>
       <div className="p-4">
         <p className="text-lg font-bold">Prime {` ${item.title}`}</p>
-        <p className="text-gray-500">{item.views} views il y a 3 jours</p>
+        <p className="text-gray-500">
+          {item.views} views {dateFormat(+item.timestamp)}
+        </p>
       </div>
     </div>
   );
