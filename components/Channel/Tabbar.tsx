@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import VideoSkeleton from "../Video/VideoSkeleton";
 import VideoGrid from "../Video/VideoGrid";
-import ShortGrid from "../Video/ShortGrid";
+import ShortGrid from "../Short/ShortGrid";
 import Home from "./Home";
-import PlaylistGrid from "../Video/PlaylistGrid";
+import PlaylistGrid from "../Playlist/PlaylistGrid";
 import { Channel } from "@/types/channel";
 
-const TabBar : React.FC<{ channelData: Channel }> = ({
-  channelData,
-}) => {
+const TabBar: React.FC<{ channelData: Channel }> = ({ channelData }) => {
   const [activeTab, setActiveTab] = useState("tab1");
 
   const tabs = [

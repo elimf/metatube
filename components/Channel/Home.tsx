@@ -1,6 +1,6 @@
 import React from "react";
 import VideoGrid from "@/components/Video/VideoGrid";
-import ShortGrid from "@/components/Video/ShortGrid";
+import ShortGrid from "@/components/Short/ShortGrid";
 import VideoSkeleton from "@/components/Video/VideoSkeleton";
 
 type HomeProps = {
@@ -12,7 +12,7 @@ const Home = ({ videoItems, shortItems }: HomeProps) => {
   return (
     <div>
       <div className="flex items-center ">
-          <VideoSkeleton item={videoItems} />
+        <VideoSkeleton item={videoItems} />
       </div>
 
       <hr className="my-4 border-t border-gray-300" />

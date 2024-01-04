@@ -4,8 +4,12 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import { getVideoById } from "@/api/video/getVideoById";
 import { VideoDetail } from "@/types/video/videoDetail";
+import VideoInfo from "@/components/Video/VideoInfo";
+import VideoSuggestions from "@/components/Video/VideoSuggestions";
+import CommentsSection from "@/components/Comment/CommentSection";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-import { dateFormat } from "@/utils/dateFormat";
+
 const Video = () => {
   const pathname = usePathname();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -35,19 +39,22 @@ const Video = () => {
 
   return (
     <Header withSidebar={true}>
-      <div className="flex-grow mt-24 px-8">
-        <div className="relative w-full h-96">
-          <video
-            ref={videoRef}
-            className="object-cover w-full h-full"
-            src={`${API_URL}/${videoData.url}`}
-            controls
-          />
+      <div className="flex mt-24 px-8">
+        <div className="w-3/4 pr-4">
+          <div className="relative w-full h-96">
+            <video
+              ref={videoRef}
+              className="object-cover w-full h-full"
+              src={`${API_URL}/${videoData.url}`}
+              controls
+            />
+          </div>
+          <VideoInfo videoData={videoData} />
+          <CommentsSection />
         </div>
-        <h1 className="text-3xl font-bold mb-2">{videoData.title}</h1>
-        <p className="text-gray-500 mb-4">{videoData.views} views</p>
-        <p className="text-lg mt-4">{videoData.description}</p>
-        <p> {dateFormat(+videoData.timestamp)}</p>
+        <div className="w-1/4">
+          <VideoSuggestions />
+        </div>
       </div>
     </Header>
   );

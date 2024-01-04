@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 module.exports = {
   images: {
-    domains: ["via.placeholder.com", "localhost", "metatubeapi.onrender.com"], // Ajoute localhost à la liste des hosts autorisés
+    domains: ["via.placeholder.com", "localhost", "metatubeapi.onrender.com"],
     remotePatterns: [
       {
         protocol: "https",

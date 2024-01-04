@@ -114,6 +114,13 @@ const AddVideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
       case 500:
         showToast(result.message, "error");
         break;
+        case 401:
+           apiRefresh();
+                showToast(
+                  "An error has occurred, please try again later. ",
+                  "error"
+                );
+          break;
       default:
         break;
     }
