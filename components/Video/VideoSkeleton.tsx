@@ -6,20 +6,26 @@ import { dateFormat } from "@/utils/dateFormat";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const VideoSkeleton = ({ item }: { item: Video }) => {
+const VideoSkeleton = ({
+  item,
+  useHover = false,
+}: {
+  item: Video;
+  useHover?: boolean;
+}) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
 
   const handleMouseEnter = () => {
-    if (videoRef.current) {
+    if (videoRef.current ) {
       videoRef.current.play();
     }
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (videoRef.current) {
+    if (videoRef.current ) {
       videoRef.current.pause();
     }
     setIsHovered(false);
@@ -31,19 +37,22 @@ const VideoSkeleton = ({ item }: { item: Video }) => {
   };
 
   return (
-    <div key={item._id} className="overflow-hidden bg-gray-900">
+    <div
+      key={item._id}
+      onClick={handleClick}
+      className="overflow-hidden bg-gray-900"
+    >
       <div
         className="relative"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
-        style={{ cursor: "pointer" }} // Ajoute un style pour indiquer qu'il est cliquable
+        onMouseEnter={useHover ? handleMouseEnter : undefined}
+        onMouseLeave={useHover ? handleMouseLeave : undefined}
+        style={{ cursor: useHover ? "pointer" : "default" }}
       >
         <Image
           src={`${API_URL}/${item.thumbnail}`}
           alt={`Gallery Item ${item}`}
           className={`object-cover w-full h-48 transition-opacity ${
-            isHovered ? "opacity-0" : "opacity-100"
+            isHovered && useHover ? "opacity-0" : "opacity-100"
           }`}
           width={400}
           height={400}
@@ -52,10 +61,10 @@ const VideoSkeleton = ({ item }: { item: Video }) => {
           ref={videoRef}
           src={`${API_URL}/${item.url}`}
           className={`absolute top-0 left-0 object-cover w-full h-full ${
-            isHovered ? "opacity-100" : "opacity-0"
+            isHovered && useHover ? "opacity-100" : "opacity-0"
           }`}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={useHover ? handleMouseEnter : undefined}
+          onMouseLeave={useHover ? handleMouseLeave : undefined}
         />
       </div>
       <div className="p-4">

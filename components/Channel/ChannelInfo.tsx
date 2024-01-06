@@ -2,15 +2,16 @@ import React from "react";
 import Image from "next/image";
 import { Channel } from "@/types";
 
-
-const ChannelInfo: React.FC<{ channelData: Channel }> = ({
-  channelData,
-}) => {
+const ChannelInfo: React.FC<{ channelData: Channel }> = ({ channelData }) => {
   return (
     <section>
       <div className="flex items-center mt-8">
         <Image
-          src={channelData.icon}
+          src={
+            channelData.icon
+              ? channelData.icon
+              : "https://via.placeholder.com/400"
+          }
           alt={channelData.channelName}
           className="w-64 h-64 rounded-full"
           width={64}

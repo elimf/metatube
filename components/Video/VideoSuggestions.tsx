@@ -57,7 +57,7 @@ const VideoSuggestions = () => {
       <div className="h-auto overflow-y-auto">
         <div className="grid grid-cols-1 gap-4">
           {dummyVideoSuggestions.map((video, index) => (
-            <VideoSkeleton key={index} item={video} />
+            <VideoSkeleton key={index} item={video}  />
           ))}
         </div>
       </div>

@@ -1,8 +1,9 @@
 import React from "react";
 import VideoSkeleton from "./VideoSkeleton";
+import { Video } from "@/types/video/video";
 
 interface VideoGridProps {
-  items: number[];
+  items: Video[];
   singleRow?: boolean;
 }
 
@@ -23,7 +24,7 @@ if (items.length === 0) {
   return (
     <div className={containerClass}>
       {items.map((item) => (
-        <div key={item} className={singleRow ? "flex-none" : ""}>
+        <div key={item._id} className={singleRow ? "flex-none" : ""}>
           <VideoSkeleton item={item} />
         </div>
       ))}

@@ -7,10 +7,13 @@ import { apiUserInfo } from "@/api/user/userinfo";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import { UserInfo } from "@/types/user/UserInfo";
 import { apiRefresh } from "@/api/auth/refresh";
+import SidebarLoader from "./Loader/SidebarLoader";
+import NavbarLoader from "./Loader/NavbarLoader";
 
 const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [loadingUserInfo, setLoadingUserInfo] = useState(true);
   const tokenManager = new JwtTokenManager();
   const token = tokenManager.getToken();
 
@@ -31,6 +34,7 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
     likedVideos: [],
     timestamp: "",
   });
+
   useEffect(() => {
     const fetchData = async () => {
       if (token) {
@@ -47,6 +51,7 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
           setUserInfo(null);
         }
       }
+      setLoadingUserInfo(false);
     };
 
     fetchData();
@@ -56,19 +61,30 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
 
   return (
     <div className="flex h-screen">
-      <div className="flex flex-col flex-1 overflow-hidden ">
-        <Navbar
-          toggleSidebar={toggleSidebar}
-          toggleDropdown={toggleDropdown}
-          isDropdownOpen={isDropdownOpen}
-          userInfo={userInfo}
-          withSidebar={withSidebar}
-          withSearch={withSidebar}
-          withNotifications={withSidebar}
-          withUpload={withSidebar}
-        />
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {loadingUserInfo ? (
+          <NavbarLoader />
+        ) : (
+          <Navbar
+            toggleSidebar={toggleSidebar}
+            toggleDropdown={toggleDropdown}
+            isDropdownOpen={isDropdownOpen}
+            userInfo={userInfo}
+            withSidebar={withSidebar}
+            withSearch={withSidebar}
+            withNotifications={withSidebar}
+            withUpload={withSidebar}
+          />
+        )}
+
         {withSidebar && (
-          <Sidebar isSidebarOpen={isSidebarOpen} userInfo={userInfo} />
+          <>
+            {loadingUserInfo ? (
+              <SidebarLoader />
+            ) : (
+              <Sidebar isSidebarOpen={isSidebarOpen} userInfo={userInfo} />
+            )}
+          </>
         )}
         <main
           className={`flex-1 overflow-x-hidden overflow-y-auto ${

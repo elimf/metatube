@@ -35,7 +35,7 @@ export default function Home() {
                   <p>Loading ...</p>
                 </div>
               ) : (
-                <VideoSkeleton item={video} key={index} />
+                <VideoSkeleton item={video} key={index} useHover={true} />
               )
             )}
           </div>
