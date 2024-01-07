@@ -6,7 +6,7 @@ import { dateFormat } from "@/utils/dateFormat";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const VideoSkeleton = ({
+const VideoPreview = ({
   item,
   useHover = false,
 }: {
@@ -18,14 +18,14 @@ const VideoSkeleton = ({
   const router = useRouter();
 
   const handleMouseEnter = () => {
-    if (videoRef.current ) {
+    if (videoRef.current) {
       videoRef.current.play();
     }
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (videoRef.current ) {
+    if (videoRef.current) {
       videoRef.current.pause();
     }
     setIsHovered(false);
@@ -81,4 +81,4 @@ const VideoSkeleton = ({
   );
 };
 
-export default VideoSkeleton;
+export default VideoPreview;

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
-import VideoSkeleton from "@/components/Video/VideoSkeleton";
+import VideoPreview from "@/components/Video/VideoPreview";
 import { getVideos } from "@/api/video/getVideo";
 import { Video } from "@/types/video/video";
 
@@ -35,7 +35,7 @@ export default function Home() {
                   <p>Loading ...</p>
                 </div>
               ) : (
-                <VideoSkeleton item={video} key={index} useHover={true} />
+                <VideoPreview item={video} key={index} useHover={true} />
               )
             )}
           </div>

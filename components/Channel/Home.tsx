@@ -1,7 +1,7 @@
 import React from "react";
 import VideoGrid from "@/components/Video/VideoGrid";
 import ShortGrid from "@/components/Short/ShortGrid";
-import VideoSkeleton from "@/components/Video/VideoSkeleton";
+import VideoPreview from "@/components/Video/VideoPreview";
 import { Video } from "@/types/video/video";
 
 type HomeProps = {
@@ -9,11 +9,11 @@ type HomeProps = {
   shortItems: any; //TODO: type
 };
 
-const Home = ({ videoItems, shortItems }: HomeProps) => {  
+const Home = ({ videoItems, shortItems }: HomeProps) => {
   return (
     <div>
       <div className="flex items-center ">
-        <VideoSkeleton item={videoItems[0]}  useHover={true}/>
+        <VideoPreview item={videoItems[0]} useHover={true} />
       </div>
 
       <hr className="my-4 border-t border-gray-300" />

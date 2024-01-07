@@ -1,5 +1,5 @@
 import React from "react";
-import VideoSkeleton from "./VideoSkeleton";
+import VideoPreview from "./VideoPreview";
 import { Video } from "@/types/video/video";
 
 interface VideoGridProps {
@@ -25,7 +25,7 @@ const VideoGrid: React.FC<VideoGridProps> = ({ items, singleRow = false }) => {
     <div className={containerClass}>
       {items.map((item) => (
         <div key={item._id} className={singleRow ? "flex-none" : ""}>
-          <VideoSkeleton item={item} useHover={true} />
+          <VideoPreview item={item} useHover={true} />
         </div>
       ))}
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import VideoSkeleton from "@/components/Video/VideoSkeleton"; // Adjust the path based on your project structure
+import VideoPreview from "@/components/Video/VideoPreview"; // Adjust the path based on your project structure
 
 const VideoSuggestions = () => {
   // Dummy data for video suggestions
@@ -57,7 +57,7 @@ const VideoSuggestions = () => {
       <div className="h-auto overflow-y-auto">
         <div className="grid grid-cols-1 gap-4">
           {dummyVideoSuggestions.map((video, index) => (
-            <VideoSkeleton key={index} item={video}  />
+            <VideoPreview key={index} item={video} />
           ))}
         </div>
       </div>
