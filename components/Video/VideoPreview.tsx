@@ -64,6 +64,7 @@ const VideoPreview = ({
           }`}
           onMouseEnter={useHover ? handleMouseEnter : undefined}
           onMouseLeave={useHover ? handleMouseLeave : undefined}
+          disablePictureInPicture={true}
         />
       </div>
       <div className="p-4 flex items-center">
