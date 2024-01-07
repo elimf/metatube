@@ -2,7 +2,7 @@ import React from "react";
 import ShortSkeleton from "./ShortSkeleton";
 
 interface ShortGridProps {
-  items: number[];
+  items: number[]; //TODO: type
   singleRow?: boolean;
 }
 

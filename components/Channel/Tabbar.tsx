@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import VideoSkeleton from "../Video/VideoSkeleton";
 import VideoGrid from "../Video/VideoGrid";
 import ShortGrid from "../Short/ShortGrid";
 import Home from "./Home";

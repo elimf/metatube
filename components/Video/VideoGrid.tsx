@@ -9,13 +9,13 @@ interface VideoGridProps {
 
 const VideoGrid: React.FC<VideoGridProps> = ({ items, singleRow = false }) => {
   // Check if the items array is empty
-if (items.length === 0) {
-  return (
-    <div className="text-center py-4">
-      <p className="text-gray-500">No videos available</p>
-    </div>
-  );
-}
+  if (items.length === 0) {
+    return (
+      <div className="text-center py-4">
+        <p className="text-gray-500">No videos available</p>
+      </div>
+    );
+  }
 
   const containerClass = singleRow
     ? "flex space-x-4 overflow-x-auto"
@@ -25,7 +25,7 @@ if (items.length === 0) {
     <div className={containerClass}>
       {items.map((item) => (
         <div key={item._id} className={singleRow ? "flex-none" : ""}>
-          <VideoSkeleton item={item} />
+          <VideoSkeleton item={item} useHover={true} />
         </div>
       ))}
     </div>

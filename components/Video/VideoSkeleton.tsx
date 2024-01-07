@@ -50,7 +50,7 @@ const VideoSkeleton = ({
       >
         <Image
           src={`${API_URL}/${item.thumbnail}`}
-          alt={`Gallery Item ${item}`}
+          alt={`Gallery Item ${item.title}`}
           className={`object-cover w-full h-48 transition-opacity ${
             isHovered && useHover ? "opacity-0" : "opacity-100"
           }`}
@@ -68,7 +68,11 @@ const VideoSkeleton = ({
         />
       </div>
       <div className="p-4">
-        <p className="text-lg font-bold">Prime {` ${item.title}`}</p>
+        <p className="text-lg font-bold">
+          {item.title.length > 19
+            ? `${item.title.slice(0, 19)}...`
+            : item.title}
+        </p>
         <p className="text-gray-500">
           {item.views} views {dateFormat(+item.timestamp)}
         </p>

@@ -31,8 +31,6 @@ const ChannelInfo: React.FC<{ channelData: Channel }> = ({ channelData }) => {
           <p className="text-gray-600">{channelData.description}</p>
         </div>
       </div>
-
-      {/* Subscribe button, notification button, etc. */}
     </section>
   );
 };

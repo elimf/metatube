@@ -6,6 +6,8 @@ import TabBar from "@/components/Channel/Tabbar";
 import ChannelInfo from "@/components/Channel/ChannelInfo";
 import { apiChannelGetById } from "@/api/channel/getChannel";
 import { Channel } from "@/types/channel";
+import ChannelInfoLoader from "@/components/Loader/Channel/ChannelInfoLoader";
+import TabbarLoader from "@/components/Loader/Channel/TabbarLoader";
 
 const ChannelPage = () => {
   const pathname = usePathname();
@@ -19,6 +21,7 @@ const ChannelPage = () => {
     videos: [],
     description: "",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const channelIndex = pathname.indexOf("channel/");
@@ -27,20 +30,31 @@ const ChannelPage = () => {
         ? pathname.slice(channelIndex + 8).split("/")[0]
         : null;
     setChannelId(newChannelId);
-    if (channelId) {
-      apiChannelGetById(channelId).then((res) => {
+
+    if (newChannelId) {
+      apiChannelGetById(newChannelId).then((res) => {
         if (res) {
           setChannelData(res);
+          setLoading(false);
         }
       });
     }
-  }, [channelId, pathname]);
+  }, [pathname]);
 
   return (
     <Header withSidebar={true}>
       <div className="flex-grow mt-24 px-8">
-        <ChannelInfo channelData={channelData} />
-        <TabBar channelData={channelData} />
+        {loading ? (
+          <>
+            <ChannelInfoLoader />
+            <TabbarLoader />
+          </>
+        ) : (
+          <>
+          <ChannelInfo channelData={channelData} />
+          <TabBar channelData={channelData} />
+          </>
+        )}
       </div>
     </Header>
   );
