@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { ProfilDropdownProps } from "@/types/props/Navbar/ProfilDropdownProps";
@@ -26,7 +27,10 @@ const ProfilDropdown: React.FC<ProfilDropdownProps> = ({
         <span className="sr-only">Open user menu</span>
         <Image
           className="w-8 h-8 rounded-full"
-          src={userInfo?.avatar || "/avatar.avif"}
+          src={
+            userInfo?.avatar ||
+            "https://api.dicebear.com/7.x/avataaars-neutral/png?eyes=xDizzy"
+          }
           alt="user photo"
           width={32}
           height={32}
@@ -50,6 +54,5 @@ const ProfilDropdown: React.FC<ProfilDropdownProps> = ({
     </>
   );
 };
-
 
 export default ProfilDropdown;

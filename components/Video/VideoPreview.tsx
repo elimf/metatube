@@ -69,7 +69,11 @@ const VideoPreview = ({
       </div>
       <div className="p-4 flex items-center">
         <Image
-          src={`${API_URL}/${item.channel?.icon}`}
+          src={
+            item.channel?.icon
+              ? `${API_URL}/${item.channel?.icon}`
+              : `https://api.dicebear.com/7.x/initials/png?seed=${item.channel?.channelName}&backgroundColor=d1d4f9&color=%23fff}`
+          }
           alt={`thumbnail ${item.title}`}
           style={{ objectFit: "contain" }}
           sizes="(max-width: 300px) 100vw,
@@ -77,9 +81,9 @@ const VideoPreview = ({
         (max-width: 800px) 100vw,
         (max-width: 1200px) 100vw,
         100vw"
-          className="object-cover w-16 h-16 rounded-full mr-4"
-          width={16}
-          height={16}
+          className="object-cover w-12 h-12 rounded-full mr-4"
+          width={12}
+          height={12}
         />
         <div>
           <p className="text-lg font-bold">
