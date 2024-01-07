@@ -94,7 +94,7 @@ const Navbar: React.FC<NavbarProps> = ({
               />
             </>
           )}
-          {userInfo && (
+          {userInfo?.timestamp && (
             <button
               type="button"
               className="flex text-sm bg-neutral-950 rounded-full md:me-0  "

@@ -62,7 +62,8 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
   return (
     <div className="flex h-screen">
       <div className="flex flex-col flex-1 overflow-hidden">
-        {loadingUserInfo ? (
+        <NavbarLoader />
+        {/* {loadingUserInfo ? (
           <NavbarLoader />
         ) : (
           <Navbar
@@ -75,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
             withNotifications={withSidebar}
             withUpload={withSidebar}
           />
-        )}
+        )} */}
 
         {withSidebar && (
           <>
