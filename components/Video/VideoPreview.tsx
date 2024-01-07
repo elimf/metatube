@@ -71,6 +71,12 @@ const VideoPreview = ({
         <Image
           src={`${API_URL}/${item.channel?.icon}`}
           alt={`thumbnail ${item.title}`}
+          style={{ objectFit: "contain" }}
+          sizes="(max-width: 300px) 100vw,
+        (max-width: 500px) 100vw,
+        (max-width: 800px) 100vw,
+        (max-width: 1200px) 100vw,
+        100vw"
           className="object-cover w-16 h-16 rounded-full mr-4"
           width={16}
           height={16}
