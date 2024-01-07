@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Video } from "@/types/video/video";
 import { dateFormat } from "@/utils/dateFormat";
+import Link from "next/link";
+import { SuggestionVideo, VideoDetail } from "@/types/video/videoDetail";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -10,7 +12,7 @@ const VideoPreview = ({
   item,
   useHover = false,
 }: {
-  item: Video;
+  item: Video | VideoDetail | SuggestionVideo;
   useHover?: boolean;
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -37,16 +39,13 @@ const VideoPreview = ({
   };
 
   return (
-    <div
-      key={item._id}
-      onClick={handleClick}
-      className="overflow-hidden bg-gray-900"
-    >
+    <div key={item._id} className="overflow-hidden relative">
       <div
         className="relative"
+        onClick={handleClick}
         onMouseEnter={useHover ? handleMouseEnter : undefined}
         onMouseLeave={useHover ? handleMouseLeave : undefined}
-        style={{ cursor: useHover ? "pointer" : "default" }}
+        style={{ cursor: "pointer" }}
       >
         <Image
           src={`${API_URL}/${item.thumbnail}`}
@@ -67,15 +66,30 @@ const VideoPreview = ({
           onMouseLeave={useHover ? handleMouseLeave : undefined}
         />
       </div>
-      <div className="p-4">
-        <p className="text-lg font-bold">
-          {item.title.length > 19
-            ? `${item.title.slice(0, 19)}...`
-            : item.title}
-        </p>
-        <p className="text-gray-500">
-          {item.views} views {dateFormat(+item.timestamp)}
-        </p>
+      <div className="p-4 flex items-center">
+        <Image
+          src={`${API_URL}/${item.channel?.icon}`}
+          alt={`thumbnail ${item.title}`}
+          className="object-cover w-16 h-16 rounded-full mr-4"
+          width={16}
+          height={16}
+        />
+        <div>
+          <p className="text-lg font-bold">
+            {item.title.length > 19
+              ? `${item.title.slice(0, 19)}...`
+              : item.title}
+          </p>
+          <Link
+            href={item.channel?._id ? `/channel/${item.channel._id}` : "#"}
+            className="text-gray-500 hover:underline"
+          >
+            {item.channel?.channelName ? item.channel.channelName : ""}
+          </Link>
+          <p className="text-gray-500">
+            {item.views} views {dateFormat(+item.timestamp)}
+          </p>
+        </div>
       </div>
     </div>
   );

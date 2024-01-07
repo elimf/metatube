@@ -4,6 +4,8 @@ import { dateFormat } from "@/utils/dateFormat";
 import React, { useState } from "react";
 import Image from "next/image";
 import { DownloadIcon, ThumbUpIcon, ShareIcon } from "@heroicons/react/solid";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface VideoInfoProps {
   videoData: VideoDetail;
 }
@@ -28,7 +30,7 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
             {/* Channel Image and Channel Info */}
             <div className="flex items-center">
               <Image
-                src={"https://via.placeholder.com/400"}
+                src={`${API_URL}/${videoData.channel.icon}`}
                 alt={"test"}
                 className="w-16 h-16 rounded-full mr-2"
                 width={64}
@@ -36,8 +38,10 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
               />
               {/* Channel Name and Subscribers */}
               <div>
-                <p className="text-lg font-bold">channelName</p>
-                <p>subscribers</p>
+                <p className="text-lg font-bold">
+                  {videoData.channel.channelName}
+                </p>
+                <p>{videoData.channel.subscribers} subscribers</p>
               </div>
             </div>
 

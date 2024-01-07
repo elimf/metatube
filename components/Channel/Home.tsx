@@ -9,7 +9,7 @@ type HomeProps = {
   shortItems: any; //TODO: type
 };
 
-const Home = ({ videoItems, shortItems }: HomeProps) => {
+const Home = ({ videoItems, shortItems }: HomeProps) => {  
   return (
     <div>
       <div className="flex items-center ">

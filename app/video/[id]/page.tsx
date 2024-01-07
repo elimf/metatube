@@ -19,12 +19,20 @@ const Video = () => {
   const pathname = usePathname();
   const [loading, setLoading] = useState(true); // Added loading state
   const [videoData, setVideoData] = useState<VideoDetail>({
+    _id: "",
     title: "",
     description: "",
     thumbnail: "",
     views: 0,
     url: "",
     timestamp: "",
+    suggestions: [],
+    channel: {
+      _id: "",
+      channelName: "",
+      icon: "",
+      subscribers: 0,
+    },
   });
 
   useEffect(() => {
@@ -64,7 +72,11 @@ const Video = () => {
           )}
         </div>
         <div className="w-1/4">
-          {loading ? <VideoSuggestionsLoader /> : <VideoSuggestions />}
+          {loading ? (
+            <VideoSuggestionsLoader />
+          ) : (
+            <VideoSuggestions suggestions={videoData.suggestions} />
+          )}
         </div>
       </div>
     </Header>

@@ -6,4 +6,9 @@ export interface Video {
   views: number;
   url: string;
   timestamp: string;
+  channel:{
+    _id: string;
+    channelName: string;
+    icon: string;
+  }
 }

@@ -35,6 +35,8 @@ const ChannelPage = () => {
       apiChannelGetById(newChannelId).then((res) => {
         if (res) {
           setChannelData(res);
+          console.log(res);
+
           setLoading(false);
         }
       });
@@ -51,8 +53,8 @@ const ChannelPage = () => {
           </>
         ) : (
           <>
-          <ChannelInfo channelData={channelData} />
-          <TabBar channelData={channelData} />
+            <ChannelInfo channelData={channelData} />
+            <TabBar channelData={channelData} />
           </>
         )}
       </div>
