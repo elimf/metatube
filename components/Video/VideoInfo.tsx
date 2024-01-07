@@ -4,6 +4,8 @@ import { dateFormat } from "@/utils/dateFormat";
 import React, { useState } from "react";
 import Image from "next/image";
 import { DownloadIcon, ThumbUpIcon, ShareIcon } from "@heroicons/react/solid";
+import SubscriptionForm from "../Loader/Channel/SubscriptionForm";
+import LikeButton from "../Interaction/LikeButton";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface VideoInfoProps {
@@ -30,8 +32,12 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
             {/* Channel Image and Channel Info */}
             <div className="flex items-center">
               <Image
-                src={`${API_URL}/${videoData.channel.icon}`}
-                alt={"test"}
+                src={
+                  videoData.channel.icon
+                    ? `${API_URL}/${videoData.channel.icon}`
+                    : `https://api.dicebear.com/7.x/initials/png?seed=${videoData.channel.channelName}&backgroundColor=d1d4f9&color=%23fff}`
+                }
+                alt={"Channel Image"}
                 className="w-16 h-16 rounded-full mr-2"
                 width={64}
                 height={64}
@@ -46,18 +52,13 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
             </div>
 
             {/* Subscribe Button */}
-            <button className="ml-2 text-black bg-white hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center inline-flex items-center me-2 dark:bg-white dark:hover:bg-gray-800 dark:focus:ring-gray-700">
-              Subscribe
-            </button>
+            <SubscriptionForm isSubscribed={false} />
           </div>
 
           <div className="flex mr-8">
-            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              <ThumbUpIcon className="h-5 w-5 mr-2" aria-hidden="true" />
-              Like
-            </button>
+            <LikeButton isLiked={false} likeCount={0} />
 
-            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button className="text-white bg-slate-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 ">
               <ShareIcon className="h-5 w-5 mr-2" aria-hidden="true" />
               Share
             </button>
@@ -68,7 +69,7 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
                 className="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800"
               >
                 <DownloadIcon className="h-5 w-5 mr-2" aria-hidden="true" />
-                Downloads
+                Download
               </button>
             </div>
           </div>
