@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 const Subscriptions: React.FC = () => {
   return (
     <Header withSidebar={true}>

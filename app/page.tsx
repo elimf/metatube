@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 import VideoPreview from "@/components/Video/VideoPreview";
 import { getVideos } from "@/api/video/getVideo";
 import { Video } from "@/types/video/video";

@@ -7,8 +7,8 @@ import { apiUserInfo } from "@/api/user/userinfo";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import { UserInfo } from "@/types/user/UserInfo";
 import { apiRefresh } from "@/api/auth/refresh";
-import SidebarLoader from "./Loader/Header/SidebarLoader";
-import NavbarLoader from "./Loader/Header/NavbarLoader";
+import SidebarLoader from "../Loader/Header/SidebarLoader";
+import NavbarLoader from "../Loader/Header/NavbarLoader";
 
 const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

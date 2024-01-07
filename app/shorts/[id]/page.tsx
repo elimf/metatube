@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import React from "react";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 const Short: React.FC = () => {
-    const pathname = usePathname();
+  const pathname = usePathname();
   useEffect(() => {
     const shortIndex = pathname.indexOf("short/");
     const shortId =
       shortIndex !== -1 ? pathname.slice(shortIndex + 6).split("/")[0] : null;
-  }, [ pathname]);
+  }, [pathname]);
   return (
     <Header withSidebar={true}>
       <div className="flex-grow mt-24 px-8">

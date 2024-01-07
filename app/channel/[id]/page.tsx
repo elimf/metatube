@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 import TabBar from "@/components/Channel/Tabbar";
 import ChannelInfo from "@/components/Channel/ChannelInfo";
 import { apiChannelGetById } from "@/api/channel/getChannel";

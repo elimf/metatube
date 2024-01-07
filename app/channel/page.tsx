@@ -1,6 +1,6 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 import React from "react";
 import { ChannelCreate } from "@/types/channel";
 import { apiChannelPost } from "@/api/channel/create";

@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/Navbar/Dropdown/ProfilDropdown.tsx"
+    "components/Header/Navbar/Dropdown/ProfilDropdown.tsx"
   ],
   "exclude": ["node_modules"]
 }

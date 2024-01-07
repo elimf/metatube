@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 import { getVideoById } from "@/api/video/getVideoById";
 import { VideoDetail } from "@/types/video/videoDetail";
 import VideoInfo from "@/components/Video/VideoInfo";
