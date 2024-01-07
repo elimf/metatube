@@ -26,7 +26,7 @@ const TabBar: React.FC<{ channelData: Channel }> = ({ channelData }) => {
     {
       id: "tab3",
       label: "Shorts",
-      content: <ShortGrid items={channelData.videos} />,
+      content: <ShortGrid items={[]} />,
       accessible: true,
     },
     {
