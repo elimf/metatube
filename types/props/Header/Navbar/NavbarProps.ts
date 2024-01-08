@@ -1,4 +1,4 @@
-import { UserInfo } from "../../../user/UserInfo";
+import { UserInfo } from "@/types";
 
 export interface NavbarProps {
   toggleSidebar: () => void;
