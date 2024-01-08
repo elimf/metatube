@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { useForm, SubmitHandler, Resolver } from "react-hook-form";
-import { VideoUpload } from "@/types/video/create";
+import { VideoUpload } from "@/types";
 import { VideoModalProps } from "@/types/props/Modal/VideoModalProps";
 import Image from "next/image";
 import { uploadVideo } from "@/api/video/upload";

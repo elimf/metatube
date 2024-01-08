@@ -2,7 +2,7 @@ import React from "react";
 import VideoGrid from "@/components/Video/VideoGrid";
 import ShortGrid from "@/components/Short/ShortGrid";
 import VideoPreview from "@/components/Video/VideoPreview";
-import { Video } from "@/types/video/video";
+import { Video } from "@/types";
 
 type HomeProps = {
   videoItems: Video[];

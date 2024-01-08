@@ -1,11 +1,10 @@
-import { Video } from "@/types/video/video"; // Assure-toi d'avoir la définition correcte pour le type Video
+import { Video } from "@/types";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getVideos = async (): Promise<Video[]> => {
   try {
     const response = await fetch(`${API_URL}/video`, {
       method: "GET",
-      // Aucun header d'autorisation nécessaire si le point d'API est public
     });
 
     if (response.ok) {

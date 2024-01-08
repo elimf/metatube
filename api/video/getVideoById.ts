@@ -1,4 +1,4 @@
-import { VideoDetail } from "@/types/video/videoDetail"; 
+import { VideoDetail } from "@/types"; 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getVideoById = async (videoId: string): Promise<VideoDetail | null> => {

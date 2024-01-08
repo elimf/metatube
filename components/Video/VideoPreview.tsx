@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Video } from "@/types/video/video";
+import { Video } from "@/types";
 import { dateFormat } from "@/utils/dateFormat";
 import Link from "next/link";
 import { SuggestionVideo, VideoDetail } from "@/types/video/videoDetail";

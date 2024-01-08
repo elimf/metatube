@@ -1,4 +1,4 @@
-import { VideoDetail } from "@/types/video/videoDetail";
+import { VideoDetail } from "@/types";
 import React from "react";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 

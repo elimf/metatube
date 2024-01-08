@@ -1,6 +1,6 @@
 import React from "react";
 import VideoPreview from "@/components/Video/VideoPreview"; // Adjust the path based on your project structure
-import { VideoDetail, SuggestionVideo } from "@/types/video/videoDetail";
+import { SuggestionVideo } from "@/types";
 
 const VideoSuggestions = ({
   suggestions,

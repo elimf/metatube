@@ -1,2 +1,9 @@
 export * from "./Header/SidebarProps";
-
+export * from "./Header/HeaderProps";
+export * from "./Header/Navbar/MenuItemProps";
+export * from "./Header/Navbar/NavbarProps";
+export * from "./Header/Navbar/ProfilDropdownProps";
+export * from "./Interaction/Comment/CommentsSectionProps";
+export * from "./Interaction/Comment/CommentProps";
+export * from "./Interaction/Like/LikeButtonProps";
+export * from "./Modal/VideoModalProps";

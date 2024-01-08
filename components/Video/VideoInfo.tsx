@@ -1,5 +1,5 @@
 "use client";
-import { VideoDetail } from "@/types/video/videoDetail";
+import { VideoDetail } from "@/types";
 import { dateFormat } from "@/utils/dateFormat";
 import React, { useState } from "react";
 import Image from "next/image";

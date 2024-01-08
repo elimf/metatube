@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/types/api/ApiResponse";
+import { ApiResponse } from "@/types";
 import { UserInfo } from "@/types/user/UserInfo";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;

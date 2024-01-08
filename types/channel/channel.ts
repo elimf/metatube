@@ -1,4 +1,4 @@
-import { VideoDetail } from "../video/videoDetail";
+import { VideoDetail } from "@/types";
 
 export interface Channel {
   channelName: string;

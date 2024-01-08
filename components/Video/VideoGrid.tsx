@@ -1,6 +1,6 @@
 import React from "react";
 import VideoPreview from "./VideoPreview";
-import { Video } from "@/types/video/video";
+import { Video } from "@/types";
 
 interface VideoGridProps {
   items: Video[];

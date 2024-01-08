@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header/Header";
 import { getVideoById } from "@/api/video/getVideoById";
-import { VideoDetail } from "@/types/video/videoDetail";
+import { VideoDetail } from "@/types";
 import VideoInfo from "@/components/Video/VideoInfo";
 import VideoSuggestions from "@/components/Video/VideoSuggestions";
 import VideoSuggestionsLoader from "@/components/Loader/Video/VideoSuggestionsLoader";

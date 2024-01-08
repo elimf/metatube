@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/solid";
 import { Tooltip } from "react-tooltip";
 import { SidebarProps } from "@/types/props/Header/SidebarProps";
-import { MenuItem } from "@/types/props/Header/SidebarProps";
+import { MenuItemSidebarProps } from "@/types/props/Header/SidebarProps";
 import { useRouter } from "next/navigation";
 import { createMenuItem } from "./MenuItemSidebar";
 
@@ -19,9 +19,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
   const router = useRouter();
   const [showMoreVideos, setShowMoreVideos] = useState(false);
   const [showMoreSubscriptions, setShowMoreSubscriptions] = useState(false);
-  const [mainMenuItems, setMainMenuItems] = useState<MenuItem[]>([]);
-  const [videosMenuItems, setVideosMenuItems] = useState<MenuItem[]>([]);
-  const [explorerMenuItems, setExplorerMenuItems] = useState<MenuItem[]>([]);
+  const [mainMenuItems, setMainMenuItems] = useState<MenuItemSidebarProps[]>([]);
+  const [videosMenuItems, setVideosMenuItems] = useState<MenuItemSidebarProps[]>([]);
+  const [explorerMenuItems, setExplorerMenuItems] = useState<MenuItemSidebarProps[]>([]);
   const [subscriptions, setSubscriptions] = useState(
     userInfo?.subscriptions || []
   );
@@ -95,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
     )
   );
   const renderMenuItems = (
-    items: MenuItem[],
+    items: MenuItemSidebarProps[],
     showMore: boolean,
     setShowMore: (value: boolean) => void,
     title?: string
@@ -114,22 +114,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
                 <td>{title}</td>
               </tr>
             )}
-            {initialDisplayedItems.map((menuItem, index) => (
+            {initialDisplayedItems.map((MenuItemSidebarProps, index) => (
               <React.Fragment key={index}>
                 <tr>
                   <td>
                     <a
                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  group cursor-pointer"
-                      onClick={menuItem.onClick}
-                      data-tooltip-content={menuItem.title}
-                      data-tooltip-id={menuItem.title}
+                      onClick={MenuItemSidebarProps.onClick}
+                      data-tooltip-content={MenuItemSidebarProps.title}
+                      data-tooltip-id={MenuItemSidebarProps.title}
                     >
-                      {menuItem.icon}
+                      {MenuItemSidebarProps.icon}
                       <span className={`ms-3 ${isSidebarOpen ? "hidden" : ""}`}>
-                        {menuItem.title}
+                        {MenuItemSidebarProps.title}
                       </span>
                     </a>
-                    <Tooltip id={menuItem.title} place="right" />
+                    <Tooltip id={MenuItemSidebarProps.title} place="right" />
                   </td>
                 </tr>
                 <tr>
@@ -161,24 +161,24 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, userInfo }) => {
           <>
             <table>
               <tbody>
-                {additionalItems.map((menuItem, index) => (
+                {additionalItems.map((MenuItemSidebarProps, index) => (
                   <React.Fragment key={index}>
                     <tr>
                       <td>
                         <a
                           className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  group cursor-pointer"
-                          onClick={menuItem.onClick}
-                          data-tooltip-content={menuItem.title}
-                          data-tooltip-id={menuItem.title}
+                          onClick={MenuItemSidebarProps.onClick}
+                          data-tooltip-content={MenuItemSidebarProps.title}
+                          data-tooltip-id={MenuItemSidebarProps.title}
                         >
-                          {menuItem.icon}
+                          {MenuItemSidebarProps.icon}
                           <span
                             className={`ms-3 ${isSidebarOpen ? "hidden" : ""}`}
                           >
-                            {menuItem.title}
+                            {MenuItemSidebarProps.title}
                           </span>
                         </a>
-                        <Tooltip id={menuItem.title} place="right" />
+                        <Tooltip id={MenuItemSidebarProps.title} place="right" />
                       </td>
                     </tr>
                   </React.Fragment>
