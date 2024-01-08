@@ -7,7 +7,7 @@ import { VideoDetail } from "@/types";
 import VideoInfo from "@/components/Video/VideoInfo";
 import VideoSuggestions from "@/components/Video/VideoSuggestions";
 import VideoSuggestionsLoader from "@/components/Loader/Video/VideoSuggestionsLoader";
-import CommentsSection from "@/components/Comment/CommentSection";
+import CommentsSection from "@/components/Interaction/Comment/CommentSection";
 import CommentsLoader from "@/components/Loader/Comment/CommentsLoader";
 import VideoInfoLoader from "@/components/Loader/Video/VideoInfoLoader";
 import VideoPlayer from "@/components/Video/VideoPlayer";

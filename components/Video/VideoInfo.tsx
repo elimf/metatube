@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { DownloadIcon, ThumbUpIcon, ShareIcon } from "@heroicons/react/solid";
 import SubscriptionForm from "../Loader/Channel/SubscriptionForm";
-import LikeButton from "../Interaction/LikeButton";
+import LikeButton from "../Interaction/Like/LikeButton";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface VideoInfoProps {

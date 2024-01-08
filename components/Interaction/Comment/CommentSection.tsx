@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Comment from "@/components/Comment/Comment";
+import Comment from "@/components/Interaction/Comment/Comment";
 import Image from "next/image";
 import { CommentTypes } from "@/types/comment/comment";
 import { CommentsSectionProps } from "@/types/props/Interaction/Comment/CommentsSectionProps";
-
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
   const initialVisibleReplies = 3;
