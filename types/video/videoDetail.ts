@@ -1,4 +1,4 @@
-import { Comment } from "../comment/comment";
+import { CommentTypes } from "../comment/comment";
 export interface VideoDetail {
   _id: string;
   title: string;
@@ -14,7 +14,8 @@ export interface VideoDetail {
     subscribers: number;
   };
   suggestions: SuggestionVideo[];
-  //comments: Comment[];
+  //comments: CommentTypes[];
+  //likes: LikeTypes[];
 }
 export interface SuggestionVideo {
   _id: string;

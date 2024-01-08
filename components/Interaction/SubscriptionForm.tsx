@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 interface SubscriptionFormProps {
   isSubscribed: boolean;
+  channelId: string;
 }
 
 const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
