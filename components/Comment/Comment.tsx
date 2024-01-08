@@ -3,7 +3,6 @@ import { dateFormat } from "@/utils/dateFormat";
 import { CommentProps } from "@/types/props/Interaction/Comment/CommentProps";
 import Image from "next/image";
 
-
 const Comment: React.FC<CommentProps> = ({
   comment,
   onReply,
@@ -43,7 +42,6 @@ const Comment: React.FC<CommentProps> = ({
             </i>
           </p>
           <p className="text-white">{comment.commentText}</p>
-          <p className="text-white">{comment.id}</p>
         </div>
         {/* Reply Input */}
         <div className="mt-2 flex">
