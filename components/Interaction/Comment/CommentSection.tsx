@@ -14,40 +14,15 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
       user: {
         id: "user1",
         name: "Alice",
-        avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
+        avatar: "https://via.placeholder.com/400", 
       },
       commentText: "This video is very informative. I enjoyed it!",
       timestamp: 1642396800000,
-      replies: [
-        {
-          id: "2000",
-          user: {
-            id: "user2",
-            name: "Bob",
-            avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
-          },
-          commentText:
-            "I agree with you, Alice. The content is well-presented.",
-          timestamp: 1642396800000,
-        },
-        {
-          id: "989",
-          user: {
-            id: "user3",
-            name: "Charlie",
-            avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
-          },
-          commentText: "The video quality is impressive. Great job!",
-          timestamp: 1642396800000,
-        },
-      ],
+      replies: [],
     },
   ]);
-  console.log(videoId);
 
   const handleReply = (commentId: string, replyText: string) => {
-    console.log(commentId, replyText);
-
     const findAndAdd = (comments: CommentTypes[]): CommentTypes[] => {
       return comments.map((comment) => {
         if (comment.id === commentId) {
@@ -73,7 +48,6 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
           };
         } else if (comment.replies && comment.replies.length > 0) {
           // Si le commentaire a des réponses, ajoutez la nouvelle réponse à ses réponses existantes
-          console.log(comment);
           comment.replies.map((reply) => {
             if (reply.id === commentId) {
               comment.replies!.push({

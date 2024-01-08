@@ -35,8 +35,6 @@ const ChannelPage = () => {
       apiChannelGetById(newChannelId).then((res) => {
         if (res) {
           setChannelData(res);
-          console.log(res);
-
           setLoading(false);
         }
       });

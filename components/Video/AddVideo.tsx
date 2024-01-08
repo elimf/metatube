@@ -127,7 +127,6 @@ const AddVideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
   };
   const onSubmit: SubmitHandler<VideoUpload> = async (data) => {
     clearErrors();
-    console.log(data);
     if (token) {
       const result = await uploadVideo(data, token);
       await handleApiResult(result);
