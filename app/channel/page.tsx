@@ -8,6 +8,8 @@ import { JwtTokenManager } from "@/utils/jwtManager";
 import showToast from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import { apiRefresh } from "@/api/auth/refresh";
+import withAuth from "@/utils/authManager";
+
 const CreateChannelPage: React.FC = () => {
   const {
     register,
@@ -112,4 +114,4 @@ const CreateChannelPage: React.FC = () => {
   );
 };
 
-export default CreateChannelPage;
+export default withAuth(CreateChannelPage);

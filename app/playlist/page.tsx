@@ -2,6 +2,7 @@
 import React from "react";
 import Header from "@/components/Header/Header";
 import { useSearchParams } from "next/navigation";
+import withAuth from "@/utils/authManager";
 
 const Playlist: React.FC = () => {
   const searchParams = useSearchParams();
@@ -15,4 +16,4 @@ const Playlist: React.FC = () => {
     </Header>
   );
 };
-export default Playlist;
+export default withAuth(Playlist);

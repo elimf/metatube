@@ -61,7 +61,10 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen flex-col">
+        <Link href="/" className="text-white hover:underline">
+          Back to Metatube
+        </Link>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
           <h2 className="text-3xl font-bold mb-6 text-center text-white">
             <span className="bg-gradient-to-r text-transparent from-blue-500 to-purple-500 bg-clip-text">
@@ -137,7 +140,10 @@ const Login: React.FC = () => {
               </button>
             </div>
             <div className="text-center mt-4">
-              <Link href="#" className="text-gray-600 hover:underline">
+              <Link
+                href="#"
+                className="text-gray-600 hover:underline cursor-not-allowed"
+              >
                 Forgot password?
               </Link>
             </div>

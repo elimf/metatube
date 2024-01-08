@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Header from "@/components/Header/Header";
+import withAuth from "@/utils/authManager";
 const History: React.FC = () => {
   return (
     <Header withSidebar={true}>
@@ -11,4 +12,4 @@ const History: React.FC = () => {
   );
 };
 
-export default History;
+export default withAuth(History);

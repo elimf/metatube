@@ -55,24 +55,29 @@ export class JwtTokenManager {
     }
   }
 
-  public async refreshToken(): Promise<void | null> {
+  public async refreshToken(): Promise<any | null> {
     const token = this.getTokenRefresh();
     if (!token) {
       return null;
     }
 
-    const response = await fetch(`${API_URL}/auth/refreshToken`, {
+    const response = await fetch(`${API_URL}/auth/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ token }),
     });
     if (response.ok) {
       const responseData = await response.json();
       const newToken = responseData.newToken;
+      this.cleaner();
       this.setToken(responseData.access_token);
       this.setRefreshToken(responseData.refresh_token);
+       return {
+         statusCode: response.status,
+         message: "Token refreshed successfully",
+       };
     } else {
       return null;
     }

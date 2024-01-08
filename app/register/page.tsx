@@ -8,7 +8,6 @@ import { Register } from "@/types";
 import { apiRegister } from "@/api/auth/register";
 import showToast from "@/utils/toast";
 
-
 const resolver: Resolver<Register> = async (values) => {
   return {
     values: values.email && values.password && values.username ? values : {},
@@ -72,7 +71,10 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col justify-center items-center min-h-screen">
+        <Link href="/" className="text-white hover:underline">
+          Back to Metatube
+        </Link>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
           <h2 className="text-3xl font-bold mb-6 text-center text-white">
             <span className="bg-gradient-to-r text-transparent from-blue-500 to-purple-500 bg-clip-text">
