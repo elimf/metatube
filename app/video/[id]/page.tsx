@@ -67,7 +67,7 @@ const Video = () => {
             <>
               <VideoPlayer videoData={videoData} />
               <VideoInfo videoData={videoData} />
-              <CommentsSection />
+              <CommentsSection videoId={videoData._id} />
             </>
           )}
         </div>

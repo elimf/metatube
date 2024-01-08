@@ -7,7 +7,7 @@ import {
   VideoCameraIcon,
 } from "@heroicons/react/solid";
 import ProfilDropdown from "./Dropdown/ProfilDropdown";
-import { NavbarProps } from "@/types/props/Navbar/NavbarProps";
+import { NavbarProps } from "@/types/props/Header/Navbar/NavbarProps";
 import AddVideoModal from "@/components/Video/AddVideo";
 const Navbar: React.FC<NavbarProps> = ({
   toggleSidebar,

@@ -10,8 +10,8 @@ import {
   ThumbUpIcon,
 } from "@heroicons/react/solid";
 import { Tooltip } from "react-tooltip";
-import { SidebarProps } from "@/types/props/SidebarProps";
-import { MenuItem } from "@/types/props/SidebarProps";
+import { SidebarProps } from "@/types/props/Header/SidebarProps";
+import { MenuItem } from "@/types/props/Header/SidebarProps";
 import { useRouter } from "next/navigation";
 import { createMenuItem } from "./MenuItemSidebar";
 

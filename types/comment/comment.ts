@@ -1,4 +1,4 @@
-export interface Comment {
+export interface CommentTypes {
   id: string;
   user: {
     id: string;
@@ -7,5 +7,5 @@ export interface Comment {
   };
   commentText: string;
   timestamp: number;
-  replies?: Comment[];
+  replies?: CommentTypes[];
 }

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ThumbUpIcon } from "@heroicons/react/solid";
+import { LikeButtonProps } from "@/types/props/Interaction/Like/LikeButtonProps";
 
-interface LikeButtonProps {
-  isLiked: boolean;
-  likeCount: number;
-}
 
 const LikeButton: React.FC<LikeButtonProps> = ({
   isLiked: initialIsLiked,
@@ -20,7 +17,6 @@ const LikeButton: React.FC<LikeButtonProps> = ({
     setLiked(!isLiked);
     setLikeCount(isLiked ? likeCount - 1 : likeCount + 1);
   };
-console.log(likeCount);
 
   const onSubmit = (data: any) => {
     console.log(data);

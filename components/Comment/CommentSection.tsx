@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import Comment from "@/components/Comment/Comment";
 import Image from "next/image";
+import { CommentTypes } from "@/types/comment/comment";
+import { CommentsSectionProps } from "@/types/props/Interaction/Comment/CommentsSectionProps";
 
-const CommentsSection: React.FC = () => {
+
+const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
+  const initialVisibleReplies = 3;
   const [newComment, setNewComment] = useState<string>("");
-  const [comments, setComments] = useState<Comment[]>([
+  const [visibleReplies, setVisibleReplies] = useState(initialVisibleReplies);
+  const [comments, setComments] = useState<CommentTypes[]>([
     {
       id: "1",
       user: {
@@ -16,7 +21,7 @@ const CommentsSection: React.FC = () => {
       timestamp: 1642396800000,
       replies: [
         {
-          id: "1-1",
+          id: "2000",
           user: {
             id: "user2",
             name: "Bob",
@@ -27,7 +32,7 @@ const CommentsSection: React.FC = () => {
           timestamp: 1642396800000,
         },
         {
-          id: "1-2",
+          id: "989",
           user: {
             id: "user3",
             name: "Charlie",
@@ -38,67 +43,78 @@ const CommentsSection: React.FC = () => {
         },
       ],
     },
-    {
-      id: "2",
-      user: {
-        id: "user4",
-        name: "David",
-        avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
-      },
-      commentText: "I found the topic intriguing. Keep up the good work!",
-      timestamp: 1642396800000,
-      replies: [
-        {
-          id: "2-1",
-          user: {
-            id: "user5",
-            name: "Eve",
-            avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
-          },
-          commentText: "I learned a lot from watching this video. Thank you!",
-          timestamp: 1642396800000,
-        },
-      ],
-    },
   ]);
+  console.log(videoId);
 
   const handleReply = (commentId: string, replyText: string) => {
-    const newComments = comments.map((comment) => {
-      if (comment.id === commentId) {
-        return {
-          ...comment,
-          replies: [
-            ...(comment.replies || []),
-            {
-              id: `${commentId}-${
-                comment.replies ? comment.replies.length + 1 : 1
-              }`,
-              user: {
-                id: "CurrentLoggedInUser", // Replace with actual user data
-                name: "Current User", // Replace with actual user data
-                avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
-              },
-              commentText: replyText,
-              timestamp: Date.now(),
-            },
-          ],
-        };
-      }
-      return comment;
-    });
+    console.log(commentId, replyText);
 
-    setComments(newComments);
+    const findAndAdd = (comments: CommentTypes[]): CommentTypes[] => {
+      return comments.map((comment) => {
+        if (comment.id === commentId) {
+          return {
+            ...comment,
+            replies: [
+              ...(comment.replies || []),
+              {
+                id: `${
+                  comment.replies
+                    ? comment.replies.length * Date.now()
+                    : Date.now()
+                }`,
+                user: {
+                  id: "CurrentLoggedInUser",
+                  name: "Current User",
+                  avatar: "https://via.placeholder.com/400",
+                },
+                commentText: replyText,
+                timestamp: Date.now(),
+              },
+            ],
+          };
+        } else if (comment.replies && comment.replies.length > 0) {
+          // Si le commentaire a des réponses, ajoutez la nouvelle réponse à ses réponses existantes
+          console.log(comment);
+          comment.replies.map((reply) => {
+            if (reply.id === commentId) {
+              comment.replies!.push({
+                id: `${
+                  comment.replies
+                    ? comment.replies.length * Date.now()
+                    : Date.now()
+                }`,
+                user: {
+                  id: "CurrentLoggedInUser",
+                  name: "Current User",
+                  avatar: "https://via.placeholder.com/400",
+                },
+                commentText: replyText,
+                timestamp: Date.now(),
+              });
+            }
+          });
+          return {
+            ...comment,
+          };
+        }
+        return comment;
+      });
+    };
+
+    // Mettre à jour les commentaires
+    setComments(findAndAdd(comments));
   };
 
   const handleCommentSubmit = () => {
     // Add logic to handle new comment submission
-    const newCommentObject: Comment = {
-      id: `${comments.length + 1}`,
+    const newCommentObject: CommentTypes = {
+      id: `${comments.length * Date.now()}`,
       user: {
         id: "CurrentLoggedInUser", // Replace with actual user data
         name: "Current User", // Replace with actual user data
         avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
       },
+      replies: [],
       commentText: newComment,
       timestamp: Date.now(),
     };
@@ -106,7 +122,13 @@ const CommentsSection: React.FC = () => {
     setComments([...comments, newCommentObject]);
     setNewComment(""); // Clear the input after submitting
   };
+  const showMoreComments = () => {
+    setVisibleReplies(visibleReplies + 3);
+  };
 
+  const showLessComments = () => {
+    setVisibleReplies(initialVisibleReplies);
+  };
   return (
     <div>
       {/* Input for new comment */}
@@ -115,7 +137,7 @@ const CommentsSection: React.FC = () => {
         <Image
           src="https://via.placeholder.com/400"
           alt="Profile"
-          className="w-8 h-8 rounded-full mr-2"
+          className="w-12 h-12 rounded-full mr-2"
           width={40}
           height={40}
         />
@@ -124,7 +146,7 @@ const CommentsSection: React.FC = () => {
           placeholder="Add a comment..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          className="border border-gray-300 p-2 w-full rounded"
+          className="flex-grow p-2 rounded-l-md text-white bg-transparent focus:outline-none border-b-2 border-gray-300"
         />
         <button
           onClick={handleCommentSubmit}
@@ -135,9 +157,20 @@ const CommentsSection: React.FC = () => {
       </div>
 
       {/* Existing comments */}
-      {comments.map((item) => (
+      {comments.slice(0, visibleReplies).map((item) => (
         <Comment key={item.id} comment={item} onReply={handleReply} />
       ))}
+
+      {comments.length > visibleReplies && (
+        <button onClick={showMoreComments} className="text-blue-500">
+          Show more comments
+        </button>
+      )}
+      {visibleReplies > initialVisibleReplies && (
+        <button onClick={showLessComments} className="text-blue-500">
+          Show less comments
+        </button>
+      )}
     </div>
   );
 };

@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
-import { HeaderProps } from "@/types/props/HeaderProps";
+import { HeaderProps } from "@/types/props/Header/HeaderProps";
 import { apiUserInfo } from "@/api/user/userinfo";
 import { JwtTokenManager } from "@/utils/jwtManager";
-import { UserInfo } from "@/types/user/UserInfo";
+import { UserInfo } from "@/types";
 import { apiRefresh } from "@/api/auth/refresh";
 import SidebarLoader from "../Loader/Header/SidebarLoader";
 import NavbarLoader from "../Loader/Header/NavbarLoader";

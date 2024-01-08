@@ -1,9 +1,11 @@
-import { UserInfo } from "@/types/user/UserInfo";
+import { UserInfo } from "@/types";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export const UserInfoSection: React.FC<{ userInfo: UserInfo }> = ({ userInfo }) => (
+export const UserInfoSection: React.FC<{ userInfo: UserInfo }> = ({
+  userInfo,
+}) => (
   <>
     <div className=" flex-row px-4 py-3">
       <div className="flex items-center ">

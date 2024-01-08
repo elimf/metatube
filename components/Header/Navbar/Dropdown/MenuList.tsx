@@ -14,7 +14,7 @@ import {
   InformationCircleIcon,
   MoonIcon,
 } from "@heroicons/react/solid";
-import { MenuItem } from "@/types/props/Navbar/MenuItemProps";
+import { MenuItem } from "@/types/props/Header/Navbar/MenuItemProps";
 import { Tooltip } from "react-tooltip";
 
 const MenuList: React.FC<{ isAuthenticated: boolean }> = ({

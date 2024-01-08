@@ -1,9 +1,9 @@
-import { MenuItem } from "@/types/props/SidebarProps";
+import { MenuItem } from "@/types/props/Header/SidebarProps";
 
 export const createMenuItem = (
   icon: JSX.Element,
   title: string,
-  onClick: () => void,
+  onClick: () => void
 ): MenuItem => ({
   icon,
   title,

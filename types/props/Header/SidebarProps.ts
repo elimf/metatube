@@ -1,4 +1,4 @@
-import { UserInfo } from "../user/UserInfo";
+import { UserInfo } from "../../user/UserInfo";
 
 export interface MenuItem {
   icon: JSX.Element;
@@ -16,5 +16,3 @@ export interface SidebarState {
   showMoreVideos: boolean;
   showMoreSubscriptions: boolean;
 }
-
-

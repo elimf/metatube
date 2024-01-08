@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { ProfilDropdownProps } from "@/types/props/Navbar/ProfilDropdownProps";
+import { ProfilDropdownProps } from "@/types/props/Header/Navbar/ProfilDropdownProps";
 import { checkIfUserIsAuthenticated } from "@/utils/authManager";
 import MenuList from "./MenuList";
 import { NotSignedInSection } from "./NotSigned";

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler, Resolver, set } from "react-hook-form";
 import Link from "next/link";
 import { passwordRegex } from "@/utils/regex";
-import { Register } from "@/types/auth";
+import { Register } from "@/types";
 import { apiRegister } from "@/api/auth/register";
 import showToast from "@/utils/toast";
 
