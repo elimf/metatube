@@ -6,6 +6,7 @@ import Image from "next/image";
 import { DownloadIcon, ThumbUpIcon, ShareIcon } from "@heroicons/react/solid";
 import SubscriptionForm from "../Interaction/SubscriptionForm";
 import LikeButton from "../Interaction/Like/LikeButton";
+import { LikedEntityType } from "@/utils/enumLike";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface VideoInfoProps {
@@ -59,7 +60,12 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
           </div>
 
           <div className="flex mr-8">
-            <LikeButton isLiked={false} likeCount={0} videoId={videoData._id} />
+            <LikeButton
+              isLiked={videoData.liked}
+              likeCount={videoData.likedBy.length}
+              videoId={videoData._id}
+              type={LikedEntityType.VIDEO}
+            />
 
             <button className="text-white bg-slate-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 ">
               <ShareIcon className="h-5 w-5 mr-2" aria-hidden="true" />

@@ -1,4 +1,5 @@
 "use client";
+import { ApiResponse } from "@/types";
 import jwt from "jsonwebtoken";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const JWT_SECRET = process.env.AUTH_SECRET ? process.env.AUTH_SECRET : "";
@@ -74,12 +75,46 @@ export class JwtTokenManager {
       this.cleaner();
       this.setToken(responseData.access_token);
       this.setRefreshToken(responseData.refresh_token);
-       return {
-         statusCode: response.status,
-         message: "Token refreshed successfully",
-       };
+      return {
+        statusCode: response.status,
+        message: "Token refreshed successfully",
+      };
     } else {
       return null;
+    }
+  }
+  public async handleApiCallWithToken(
+    apiCallFunction: (
+      ...otherArgs: any[]
+    ) => Promise<ApiResponse>,
+    ...otherArgs: any[]
+  ): Promise<void> {
+    const token = this.getToken();
+    if (token) {
+      if (this.isTokenValid(token)) {
+      window.location.pathname = "/login";
+      }
+      try {
+        const res = await apiCallFunction(token, ...otherArgs);
+
+        if (
+          "statusCode" in res &&
+          res.statusCode === 401 &&
+          res.message === "Invalid JWT token"
+        ) {
+          await this.refreshToken();
+          const refreshedRes = await apiCallFunction(
+            this.getToken()!,
+            ...otherArgs
+          );
+
+          // Gérer la suite de la logique en fonction de la réponse de l'API après le rafraîchissement
+        }
+        // Gérer la suite de la logique en fonction de la réponse de l'API
+      } catch (error) {
+        console.error("Redirection vers la page de connexion.");
+         //window.location.href = '/login';
+      }
     }
   }
 }

@@ -7,6 +7,7 @@ export interface VideoDetail {
   views: number;
   url: string;
   timestamp: string;
+  likedBy: string[];
   channel: {
     _id: string;
     channelName: string;
@@ -14,6 +15,7 @@ export interface VideoDetail {
     subscribers: number;
   };
   suggestions: SuggestionVideo[];
+  liked: boolean;
   //comments: CommentTypes[];
   //likes: LikeTypes[];
 }

@@ -12,8 +12,8 @@ import CommentsLoader from "@/components/Loader/Comment/CommentsLoader";
 import VideoInfoLoader from "@/components/Loader/Video/VideoInfoLoader";
 import VideoPlayer from "@/components/Video/VideoPlayer";
 import VideoPlayerLoader from "@/components/Loader/Video/VideoPlayerLoader";
+import { JwtTokenManager } from "@/utils/jwtManager";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Video = () => {
   const pathname = usePathname();
@@ -26,6 +26,7 @@ const Video = () => {
     views: 0,
     url: "",
     timestamp: "",
+    likedBy: [],
     suggestions: [],
     channel: {
       _id: "",
@@ -33,21 +34,36 @@ const Video = () => {
       icon: "",
       subscribers: 0,
     },
+    liked: false,
   });
-
+const tokenManager = new JwtTokenManager();
   useEffect(() => {
     const videoIndex = pathname.indexOf("video/");
     const newvideoId =
       videoIndex !== -1 ? pathname.slice(videoIndex + 6).split("/")[0] : null;
     if (newvideoId) {
       setLoading(true); // Set loading to true before fetching data
+      const token = tokenManager.getToken();
+      if(token){
+      getVideoById(newvideoId, token)
+        .then((res) => {
+          if (res) {
+            setVideoData(res);
+            console.log(res);
+          }
+        })
+        .finally(() => setLoading(false));
+      }else{
       getVideoById(newvideoId)
         .then((res) => {
           if (res) {
             setVideoData(res);
+            console.log(res);
           }
         })
-        .finally(() => setLoading(false)); // Set loading to false after fetching data
+        .finally(() => setLoading(false));
+      }
+       // Set loading to false after fetching data
     } else {
       console.log("error");
     }
