@@ -12,7 +12,10 @@ export const UserInfoSection: React.FC<{ userInfo: UserInfo }> = ({
         <div className="flex  ">
           <Image
             className="w-12 h-12 rounded-full mr-2"
-            src={userInfo.avatar || "/avatar.avif"}
+            src={
+              userInfo?.avatar ||
+              "https://api.dicebear.com/7.x/avataaars-neutral/png?eyes=xDizzy"
+            }
             alt="user photo"
             width={32}
             height={32}
