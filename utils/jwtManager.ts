@@ -1,14 +1,12 @@
 "use client";
-import { ApiResponse } from "@/types";
 import jwt from "jsonwebtoken";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const JWT_SECRET = process.env.AUTH_SECRET ? process.env.AUTH_SECRET : "";
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 
 export class JwtTokenManager {
   private accessTokenStorageKey = "accessToken";
   private refreshTokenStorageKey = "refreshToken";
 
-  // Stocke le token dans le localStorage
   public setToken(token: string): void {
     localStorage.setItem(this.accessTokenStorageKey, token);
   }
@@ -16,7 +14,6 @@ export class JwtTokenManager {
     localStorage.setItem(this.refreshTokenStorageKey, tokenRefresh);
   }
 
-  // Récupère le token depuis le localStorage
   public getToken(): string | null {
     if (typeof window === "undefined") {
       // Check if window is defined (in a browser environment)
@@ -33,7 +30,6 @@ export class JwtTokenManager {
     return localStorage.getItem(this.refreshTokenStorageKey);
   }
 
-  // Supprime le token du localStorage
   public removeToken(): void {
     localStorage.removeItem(this.accessTokenStorageKey);
   }
@@ -46,12 +42,16 @@ export class JwtTokenManager {
     window.location.pathname = "/";
   }
 
-  public isTokenValid(token: string): boolean {
+  public async isTokenValid(token: string): Promise<boolean> {
     if (!token) return false;
+    console.log(typeof token);
+    console.log(typeof NEXTAUTH_SECRET);
+
     try {
-      jwt.verify(token, JWT_SECRET);
+      await jwt.verify(token, NEXTAUTH_SECRET!);
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   }
@@ -81,40 +81,6 @@ export class JwtTokenManager {
       };
     } else {
       return null;
-    }
-  }
-  public async handleApiCallWithToken(
-    apiCallFunction: (
-      ...otherArgs: any[]
-    ) => Promise<ApiResponse>,
-    ...otherArgs: any[]
-  ): Promise<void> {
-    const token = this.getToken();
-    if (token) {
-      if (this.isTokenValid(token)) {
-      window.location.pathname = "/login";
-      }
-      try {
-        const res = await apiCallFunction(token, ...otherArgs);
-
-        if (
-          "statusCode" in res &&
-          res.statusCode === 401 &&
-          res.message === "Invalid JWT token"
-        ) {
-          await this.refreshToken();
-          const refreshedRes = await apiCallFunction(
-            this.getToken()!,
-            ...otherArgs
-          );
-
-          // Gérer la suite de la logique en fonction de la réponse de l'API après le rafraîchissement
-        }
-        // Gérer la suite de la logique en fonction de la réponse de l'API
-      } catch (error) {
-        console.error("Redirection vers la page de connexion.");
-         //window.location.href = '/login';
-      }
     }
   }
 }

@@ -1,4 +1,3 @@
-import { Login } from "@/types/auth";
 import { JwtTokenManager } from "@/utils/jwtManager";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;

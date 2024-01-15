@@ -38,15 +38,21 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (token) {
-        const res = await apiUserInfo(token);
+        tokenManager.isTokenValid(token).then((res) => {
+          if (!res) {
+            apiRefresh();
+          }
+        });
+
+        const result = await apiUserInfo(token);
         if (
-          "statusCode" in res &&
-          res.statusCode === 401 &&
-          res.message === "Invalid JWT token"
+          "statusCode" in result &&
+          result.statusCode === 401 &&
+          result.message === "Invalid JWT token"
         ) {
           apiRefresh();
-        } else if (!("statusCode" in res)) {
-          setUserInfo(res);
+        } else if (!("statusCode" in result)) {
+          setUserInfo(result);
         } else {
           setUserInfo(null);
         }
