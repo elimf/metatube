@@ -5,6 +5,7 @@ import { LikeButtonProps } from "@/types/props/Interaction/Like/LikeButtonProps"
 import { JwtTokenManager } from "@/utils/jwtManager";
 import { apiLikeManager } from "@/api/interaction/like";
 import { CreateLikeDto } from "@/types";
+import { apiRefresh } from "@/api/auth/refresh";
 
 const LikeButton: React.FC<LikeButtonProps> = ({
   isLiked: initialIsLiked,
@@ -19,18 +20,36 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   // Regardez les changements dans le formulaire pour déclencher le rendu lorsque les données changent
   watch();
-  const onSubmit = async (data: CreateLikeDto) => {
-    try {
-      const formData =data;
-      await tokenManager.handleApiCallWithToken(apiLikeManager, formData);
-      // Si le traitement réussit, mettez à jour l'état ici
+const onSubmit = async (data: CreateLikeDto) => {
+  try {
+    const formData = data;
+    const token = tokenManager.getToken() as string;
+
+    const isTokenValid = await tokenManager.isTokenValid(token);
+
+    if (!isTokenValid) {
+      await apiRefresh();
+    }
+
+    const likeResponse = await apiLikeManager(token, formData);
+
+    if (
+      likeResponse.statusCode === 401 &&
+      likeResponse.message === "Invalid JWT token"
+    ) {
+      await apiRefresh();
+    }
+
+    if (likeResponse.statusCode === 200) {
       setLiked(!isLiked);
       setLikeCount(isLiked ? likeCount - 1 : likeCount + 1);
-    } catch (error) {
-      // Si le traitement échoue, vous pouvez gérer les erreurs ici
-      console.error("Erreur lors de la gestion du like :", error);
     }
-  };
+  } catch (error) {
+    // Gestion des erreurs
+    console.error("Erreur lors de la gestion du like :", error);
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

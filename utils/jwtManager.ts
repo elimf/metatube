@@ -44,8 +44,6 @@ export class JwtTokenManager {
 
   public async isTokenValid(token: string): Promise<boolean> {
     if (!token) return false;
-    console.log(typeof token);
-    console.log(typeof NEXTAUTH_SECRET);
 
     try {
       await jwt.verify(token, NEXTAUTH_SECRET!);

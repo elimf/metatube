@@ -8,7 +8,8 @@ export const apiRefresh = async (): Promise<any> => {
   const refreshToken = tokenManager.getTokenRefresh();
 
   if (!refreshToken) {
-    throw new Error("Refresh token not found");
+    tokenManager.cleaner();
+    window.location.pathname = "/";
   }
 
   const response = await fetch(`${API_URL}/auth/refresh`, {

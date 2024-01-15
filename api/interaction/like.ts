@@ -16,7 +16,7 @@ export const apiLikeManager = async (
   if (response.ok) {
     const responseBody = await response.json();
     return {
-      statusCode: responseBody.status,
+      statusCode: responseBody.statusCode,
       message: responseBody.message,
     };
   }
