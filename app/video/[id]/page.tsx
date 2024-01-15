@@ -13,7 +13,7 @@ import VideoInfoLoader from "@/components/Loader/Video/VideoInfoLoader";
 import VideoPlayer from "@/components/Video/VideoPlayer";
 import VideoPlayerLoader from "@/components/Loader/Video/VideoPlayerLoader";
 import { JwtTokenManager } from "@/utils/jwtManager";
-
+import { apiRefresh } from "@/api/auth/refresh";
 
 const Video = () => {
   const pathname = usePathname();
@@ -27,6 +27,7 @@ const Video = () => {
     url: "",
     timestamp: "",
     likedBy: [],
+    comments: [],
     suggestions: [],
     channel: {
       _id: "",
@@ -36,7 +37,7 @@ const Video = () => {
     },
     liked: false,
   });
-const tokenManager = new JwtTokenManager();
+  const tokenManager = new JwtTokenManager();
   useEffect(() => {
     const videoIndex = pathname.indexOf("video/");
     const newvideoId =
@@ -44,28 +45,30 @@ const tokenManager = new JwtTokenManager();
     if (newvideoId) {
       setLoading(true); // Set loading to true before fetching data
       const token = tokenManager.getToken();
-      if(token){
-      getVideoById(newvideoId, token)
-        .then((res) => {
-          if (res) {
-            setVideoData(res);
-            console.log(res);
+      if (token) {
+        tokenManager.isTokenValid(token).then((res) => {
+          if (!res) {
+            apiRefresh();
           }
-        })
-        .finally(() => setLoading(false));
-      }else{
-      getVideoById(newvideoId)
-        .then((res) => {
-          if (res) {
-            setVideoData(res);
-            console.log(res);
-          }
-        })
-        .finally(() => setLoading(false));
+        });
+        getVideoById(newvideoId, token)
+          .then((res) => {
+            if (res) {
+              setVideoData(res);
+              console.log(res);
+            }
+          })
+          .finally(() => setLoading(false));
+      } else {
+        getVideoById(newvideoId)
+          .then((res) => {
+            if (res) {
+              setVideoData(res);
+              console.log(res);
+            }
+          })
+          .finally(() => setLoading(false));
       }
-       // Set loading to false after fetching data
-    } else {
-      console.log("error");
     }
   }, [pathname]);
 
@@ -83,7 +86,7 @@ const tokenManager = new JwtTokenManager();
             <>
               <VideoPlayer videoData={videoData} />
               <VideoInfo videoData={videoData} />
-              <CommentsSection videoId={videoData._id} />
+              <CommentsSection videoDetails={videoData} />
             </>
           )}
         </div>

@@ -39,6 +39,9 @@ export class JwtTokenManager {
   public cleaner(): void {
     localStorage.removeItem(this.accessTokenStorageKey);
     localStorage.removeItem(this.refreshTokenStorageKey);
+  }
+  public logout(): void {
+    this.cleaner();
     window.location.pathname = "/";
   }
 

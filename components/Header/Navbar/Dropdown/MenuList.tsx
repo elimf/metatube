@@ -25,7 +25,7 @@ const MenuList: React.FC<{ isAuthenticated: boolean }> = ({
   const mainMenuItems = [
     {
       label: "Sign out",
-      onClick: () => tokenManager.cleaner(),
+      onClick: () => tokenManager.logout(),
       icon: <LogoutIcon className="w-4 h-4 mr-2" />,
     },
   ];

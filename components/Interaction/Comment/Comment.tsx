@@ -2,18 +2,56 @@ import React, { useState } from "react";
 import { dateFormat } from "@/utils/dateFormat";
 import { CommentProps } from "@/types/props/Interaction/Comment/CommentProps";
 import Image from "next/image";
+import { CreateCommentDto } from "@/types";
+import { apiRefresh } from "@/api/auth/refresh";
+import { JwtTokenManager } from "@/utils/jwtManager";
+import { apiCommentCreate } from "@/api/interaction/comment";
 
 const Comment: React.FC<CommentProps> = ({
+  videoId,
   comment,
   onReply,
   initialVisibleReplies = 3,
 }) => {
   const [replyText, setReplyText] = useState("");
   const [visibleReplies, setVisibleReplies] = useState(initialVisibleReplies);
-  const handleReply = () => {
+  const tokenManager = new JwtTokenManager();
+  const handleReply = async () => {
     if (onReply && replyText.trim() !== "") {
-      onReply(comment.id, replyText);
-      setReplyText("");
+      const newComment: CreateCommentDto = {
+        text: replyText,
+        videoId: videoId,
+        commentId: comment.id,
+      };
+      try {
+        const token = tokenManager.getToken() as string;
+
+        const isTokenValid = await tokenManager.isTokenValid(token);
+
+        if (!isTokenValid) {
+          await apiRefresh();
+        }
+
+        const likeResponse = await apiCommentCreate(token, newComment);
+
+        if (
+          likeResponse.statusCode === 401 &&
+          likeResponse.message === "Invalid JWT token"
+        ) {
+          await apiRefresh();
+        }
+
+        if (
+          likeResponse.statusCode === 201 &&
+          typeof likeResponse.message !== "string" 
+        ) {
+          onReply(likeResponse.message);
+          setReplyText("");
+        }
+      } catch (error) {
+        // Gestion des erreurs
+        console.error("Erreur lors de la gestion du like :", error);
+      }
     }
   };
   const showMoreReplies = () => {
@@ -27,7 +65,11 @@ const Comment: React.FC<CommentProps> = ({
   return (
     <div className="bg-transparent rounded-lg mb-2 ml-2 ">
       <Image
-        src={comment.user.avatar}
+        src={
+          comment.user.avatar
+            ? comment.user.avatar
+            : "https://api.dicebear.com/7.x/avataaars-neutral/png?eyes=xDizzy"
+        }
         alt="User Avatar"
         className="w-10 h-10 rounded-full mr-4"
         width={40}
@@ -65,7 +107,12 @@ const Comment: React.FC<CommentProps> = ({
         {comment.replies && comment.replies.length > 0 && (
           <div className="ml-4 mt-2 pl-2 border-gray-300">
             {comment.replies.slice(0, visibleReplies).map((reply) => (
-              <Comment key={reply.id} comment={reply} onReply={onReply} />
+              <Comment
+                key={reply.id}
+                comment={reply}
+                onReply={onReply}
+                videoId={videoId}
+              />
             ))}
             {comment.replies.length > visibleReplies && (
               <button onClick={showMoreReplies} className="text-blue-500">

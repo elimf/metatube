@@ -3,7 +3,7 @@ export interface CommentTypes {
   user: {
     id: string;
     name: string;
-    avatar: string; // URL to the user's avatar image
+    avatar: string;
   };
   commentText: string;
   timestamp: number;

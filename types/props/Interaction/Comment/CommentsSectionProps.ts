@@ -1,3 +1,5 @@
+import {  VideoDetail } from "@/types";
+
 export interface CommentsSectionProps {
-  videoId: string;
+  videoDetails: VideoDetail;
 }

@@ -1,68 +1,40 @@
 import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Comment from "@/components/Interaction/Comment/Comment";
 import Image from "next/image";
-import { CommentTypes } from "@/types/comment/comment";
-import { CommentsSectionProps } from "@/types/props/Interaction/Comment/CommentsSectionProps";
+import { CommentTypes, CreateCommentDto, CommentsSectionProps } from "@/types";
+import { apiRefresh } from "@/api/auth/refresh";
+import { apiCommentCreate } from "@/api/interaction/comment";
+import { JwtTokenManager } from "@/utils/jwtManager";
 
-const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
+const CommentsSection: React.FC<CommentsSectionProps> = ({ videoDetails }) => {
   const initialVisibleReplies = 3;
-  const [newComment, setNewComment] = useState<string>("");
   const [visibleReplies, setVisibleReplies] = useState(initialVisibleReplies);
-  const [comments, setComments] = useState<CommentTypes[]>([
-    {
-      id: "1",
-      user: {
-        id: "user1",
-        name: "Alice",
-        avatar: "https://via.placeholder.com/400", 
-      },
-      commentText: "This video is very informative. I enjoyed it!",
-      timestamp: 1642396800000,
-      replies: [],
-    },
-  ]);
+  const [allComments, setAllComments] = useState<CommentTypes[]>(
+    videoDetails.comments
+  );
+  const tokenManager = new JwtTokenManager();
+  const { register, handleSubmit, reset } = useForm<CreateCommentDto>({});
 
-  const handleReply = (commentId: string, replyText: string) => {
+  const handleReply = (newResponse: CommentTypes) => {
     const findAndAdd = (comments: CommentTypes[]): CommentTypes[] => {
       return comments.map((comment) => {
-        if (comment.id === commentId) {
+        if (comment.id === newResponse.id) {
           return {
             ...comment,
             replies: [
               ...(comment.replies || []),
               {
-                id: `${
-                  comment.replies
-                    ? comment.replies.length * Date.now()
-                    : Date.now()
-                }`,
-                user: {
-                  id: "CurrentLoggedInUser",
-                  name: "Current User",
-                  avatar: "https://via.placeholder.com/400",
-                },
-                commentText: replyText,
-                timestamp: Date.now(),
+                ...newResponse,
               },
             ],
           };
         } else if (comment.replies && comment.replies.length > 0) {
           // Si le commentaire a des réponses, ajoutez la nouvelle réponse à ses réponses existantes
           comment.replies.map((reply) => {
-            if (reply.id === commentId) {
+            if (reply.id === newResponse.id) {
               comment.replies!.push({
-                id: `${
-                  comment.replies
-                    ? comment.replies.length * Date.now()
-                    : Date.now()
-                }`,
-                user: {
-                  id: "CurrentLoggedInUser",
-                  name: "Current User",
-                  avatar: "https://via.placeholder.com/400",
-                },
-                commentText: replyText,
-                timestamp: Date.now(),
+                ...newResponse,
               });
             }
           });
@@ -75,26 +47,45 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
     };
 
     // Mettre à jour les commentaires
-    setComments(findAndAdd(comments));
+    setAllComments(findAndAdd(videoDetails.comments));
   };
 
-  const handleCommentSubmit = () => {
-    // Add logic to handle new comment submission
-    const newCommentObject: CommentTypes = {
-      id: `${comments.length * Date.now()}`,
-      user: {
-        id: "CurrentLoggedInUser", // Replace with actual user data
-        name: "Current User", // Replace with actual user data
-        avatar: "https://via.placeholder.com/400", // Replace with actual user avatar URL
-      },
-      replies: [],
-      commentText: newComment,
-      timestamp: Date.now(),
+  const onSubmit: SubmitHandler<CreateCommentDto> = async (values) => {
+    const newComment: CreateCommentDto = {
+      text: values.text,
+      videoId: videoDetails._id,
     };
+    try {
+      const token = tokenManager.getToken() as string;
 
-    setComments([...comments, newCommentObject]);
-    setNewComment(""); // Clear the input after submitting
+      const isTokenValid = await tokenManager.isTokenValid(token);
+
+      if (!isTokenValid) {
+        await apiRefresh();
+      }
+
+      const likeResponse = await apiCommentCreate(token, newComment);
+
+      if (
+        likeResponse.statusCode === 401 &&
+        likeResponse.message === "Invalid JWT token"
+      ) {
+        await apiRefresh();
+      }
+
+      if (
+        likeResponse.statusCode === 201 &&
+        typeof likeResponse.message !== "string"
+      ) {
+        reset();
+        setAllComments([likeResponse.message, ...videoDetails.comments]);
+      }
+    } catch (error) {
+      // Gestion des erreurs
+      console.error("Erreur lors de la gestion du like :", error);
+    }
   };
+
   const showMoreComments = () => {
     setVisibleReplies(visibleReplies + 3);
   };
@@ -103,7 +94,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
     setVisibleReplies(initialVisibleReplies);
   };
   return (
-    <div>
+    <form onSubmit={handleSubmit(onSubmit)}>
       {/* Input for new comment */}
       <div className="flex items-center mb-4">
         {/* Replace with actual user profile picture logic */}
@@ -117,12 +108,17 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
         <input
           type="text"
           placeholder="Add a comment..."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
+          {...register("text", { required: true })}
+          className="flex-grow p-2 rounded-l-md text-white bg-transparent focus:outline-none border-b-2 border-gray-300"
+        />
+        <input
+          type="hidden"
+          value={videoDetails._id}
+          {...register("videoId", { required: true })}
           className="flex-grow p-2 rounded-l-md text-white bg-transparent focus:outline-none border-b-2 border-gray-300"
         />
         <button
-          onClick={handleCommentSubmit}
+          type="submit"
           className="bg-blue-500 text-white px-4 py-2 ml-2 rounded"
         >
           Comment
@@ -130,11 +126,16 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
       </div>
 
       {/* Existing comments */}
-      {comments.slice(0, visibleReplies).map((item) => (
-        <Comment key={item.id} comment={item} onReply={handleReply} />
+      {allComments.slice(0, visibleReplies).map((item) => (
+        <Comment
+          key={item.id}
+          comment={item}
+          onReply={handleReply}
+          videoId={videoDetails._id}
+        />
       ))}
 
-      {comments.length > visibleReplies && (
+      {allComments.length > visibleReplies && (
         <button onClick={showMoreComments} className="text-blue-500">
           Show more comments
         </button>
@@ -144,7 +145,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoId }) => {
           Show less comments
         </button>
       )}
-    </div>
+    </form>
   );
 };
 

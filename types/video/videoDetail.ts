@@ -16,8 +16,7 @@ export interface VideoDetail {
   };
   suggestions: SuggestionVideo[];
   liked: boolean;
-  //comments: CommentTypes[];
-  //likes: LikeTypes[];
+  comments: CommentTypes[];
 }
 export interface SuggestionVideo {
   _id: string;
