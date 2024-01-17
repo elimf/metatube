@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { dateFormat } from "@/utils/dateFormat";
 import { CommentProps } from "@/types/props/Interaction/Comment/CommentProps";
 import Image from "next/image";
-import { CreateCommentDto } from "@/types";
+import { CommentTypes, CreateCommentDto } from "@/types";
 import { apiRefresh } from "@/api/auth/refresh";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import { apiCommentCreate } from "@/api/interaction/comment";
@@ -12,17 +12,21 @@ const Comment: React.FC<CommentProps> = ({
   comment,
   onReply,
   initialVisibleReplies = 3,
+  allComments,
 }) => {
   const [replyText, setReplyText] = useState("");
   const [visibleReplies, setVisibleReplies] = useState(initialVisibleReplies);
   const tokenManager = new JwtTokenManager();
   const handleReply = async () => {
     if (onReply && replyText.trim() !== "") {
+      const ancestor = ascendToOldestParent(allComments, comment.id);
+      if (!ancestor) return null;
       const newComment: CreateCommentDto = {
         text: replyText,
         videoId: videoId,
-        commentId: comment.id,
+        commentId: ancestor.id,
       };
+
       try {
         const token = tokenManager.getToken() as string;
 
@@ -43,9 +47,9 @@ const Comment: React.FC<CommentProps> = ({
 
         if (
           likeResponse.statusCode === 201 &&
-          typeof likeResponse.message !== "string" 
+          typeof likeResponse.message !== "string"
         ) {
-          onReply(likeResponse.message);
+          onReply(likeResponse.message, ancestor.id);
           setReplyText("");
         }
       } catch (error) {
@@ -54,6 +58,29 @@ const Comment: React.FC<CommentProps> = ({
       }
     }
   };
+
+  function ascendToOldestParent(
+    comments: CommentTypes[],
+    targetId: string
+  ): CommentTypes | null {
+    for (const comment of comments) {
+      if (comment.replies && comment.replies.length > 0) {
+        // Recherche récursive dans les réponses
+        const ancestor = ascendToOldestParent(comment.replies, targetId);
+        if (ancestor) {
+          // Si un ancêtre est trouvé dans les réponses, retourne le commentaire actuel
+          return comment;
+        }
+      }
+
+      if (comment.id === targetId) {
+        // Si l'ID correspond et il n'y a pas de réponses, retourne le commentaire actuel
+        return comment;
+      }
+    }
+
+    return null; // Aucun ancêtre trouvé
+  }
   const showMoreReplies = () => {
     setVisibleReplies(visibleReplies + 3);
   };
@@ -112,6 +139,7 @@ const Comment: React.FC<CommentProps> = ({
                 comment={reply}
                 onReply={onReply}
                 videoId={videoId}
+                allComments={allComments}
               />
             ))}
             {comment.replies.length > visibleReplies && (

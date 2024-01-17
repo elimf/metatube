@@ -55,7 +55,6 @@ const Video = () => {
           .then((res) => {
             if (res) {
               setVideoData(res);
-              console.log(res);
             }
           })
           .finally(() => setLoading(false));
@@ -64,7 +63,6 @@ const Video = () => {
           .then((res) => {
             if (res) {
               setVideoData(res);
-              console.log(res);
             }
           })
           .finally(() => setLoading(false));

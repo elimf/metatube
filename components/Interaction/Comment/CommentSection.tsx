@@ -16,10 +16,10 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoDetails }) => {
   const tokenManager = new JwtTokenManager();
   const { register, handleSubmit, reset } = useForm<CreateCommentDto>({});
 
-  const handleReply = (newResponse: CommentTypes) => {
+  const handleReply = (newResponse: CommentTypes, commentId: string) => {
     const findAndAdd = (comments: CommentTypes[]): CommentTypes[] => {
       return comments.map((comment) => {
-        if (comment.id === newResponse.id) {
+        if (comment.id === commentId) {
           return {
             ...comment,
             replies: [
@@ -132,6 +132,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ videoDetails }) => {
           comment={item}
           onReply={handleReply}
           videoId={videoDetails._id}
+          allComments={allComments}
         />
       ))}
 
