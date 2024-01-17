@@ -1,7 +1,7 @@
 "use client";
 import { VideoDetail } from "@/types";
 import { dateFormat } from "@/utils/dateFormat";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { DownloadIcon, ThumbUpIcon, ShareIcon } from "@heroicons/react/solid";
 import SubscriptionForm from "../Interaction/SubscriptionForm";
@@ -11,18 +11,27 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface VideoInfoProps {
   videoData: VideoDetail;
+  onSubscriptionChange?: (newSubscriptionStatus: boolean) => void;
 }
 
-const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
+const VideoInfo: React.FC<VideoInfoProps> = ({
+  videoData,
+  onSubscriptionChange,
+}) => {
   const [isCollapsed, setCollapsed] = useState<boolean>(true);
+  const [videoInformation, setVideoInformation] =
+    useState<VideoDetail>(videoData);
   const handleInfoClick = () => {
     setCollapsed(!isCollapsed);
   };
+  useEffect(() => {
+    setVideoInformation(videoData);
+  }, [videoData]);
   return (
     <div className="mt-4">
       {/* Video Information Header */}
       <div className="flex items-center mb-4">
-        <h1 className="text-xl font-bold mb-2">{videoData.title}</h1>
+        <h1 className="text-xl font-bold mb-2">{videoInformation.title}</h1>
       </div>
 
       {/* Video Title and Channel Information */}
@@ -34,9 +43,9 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
             <div className="flex items-center">
               <Image
                 src={
-                  videoData.channel.icon
-                    ? `${API_URL}/${videoData.channel.icon}`
-                    : `https://api.dicebear.com/7.x/initials/png?seed=${videoData.channel.channelName}&backgroundColor=d1d4f9&color=%23fff}`
+                  videoInformation.channel.icon
+                    ? `${API_URL}/${videoInformation.channel.icon}`
+                    : `https://api.dicebear.com/7.x/initials/png?seed=${videoInformation.channel.channelName}&backgroundColor=d1d4f9&color=%23fff}`
                 }
                 alt={"Channel Image"}
                 className="w-16 h-16 rounded-full mr-2"
@@ -46,24 +55,25 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
               {/* Channel Name and Subscribers */}
               <div>
                 <p className="text-lg font-bold">
-                  {videoData.channel.channelName}
+                  {videoInformation.channel.channelName}
                 </p>
-                <p>{videoData.channel.subscribers} subscribers</p>
+                <p>{videoInformation.channel.subscribers} subscribers</p>
               </div>
             </div>
 
             {/* Subscribe Button */}
             <SubscriptionForm
-              isSubscribed={false}
-              channelId={videoData.channel._id}
+              isSubscribed={videoInformation.subscribed}
+              channelId={videoInformation.channel._id}
+              onSubscriptionChange={onSubscriptionChange}
             />
           </div>
 
           <div className="flex mr-8">
             <LikeButton
-              isLiked={videoData.liked}
-              likeCount={videoData.likedBy.length}
-              videoId={videoData._id}
+              isLiked={videoInformation.liked}
+              likeCount={videoInformation.likedBy.length}
+              videoId={videoInformation._id}
               type={LikedEntityType.VIDEO}
             />
 
@@ -90,19 +100,23 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ videoData }) => {
             onClick={handleInfoClick}
           >
             <div className="flex items-center justify-between mb-2">
-              <p className="text-gray-600">{videoData.views} views</p>
+              <p className="text-gray-600">{videoInformation.views} views</p>
               <p className="text-gray-600">
-                {dateFormat(+videoData.timestamp)}
+                {dateFormat(+videoInformation.timestamp)}
               </p>
             </div>
             {!isCollapsed && (
               <div className="mt-4">
-                <p className="text-lg text-black">{videoData.description}</p>
+                <p className="text-lg text-black">
+                  {videoInformation.description}
+                </p>
               </div>
             )}
             {isCollapsed && (
               <div className="mt-4 overflow-hidden max-h-20">
-                <p className="text-lg text-black">{videoData.description}</p>
+                <p className="text-lg text-black">
+                  {videoInformation.description}
+                </p>
               </div>
             )}
           </div>

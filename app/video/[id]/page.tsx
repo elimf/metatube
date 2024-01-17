@@ -36,8 +36,28 @@ const Video = () => {
       subscribers: 0,
     },
     liked: false,
+    subscribed: false,
   });
   const tokenManager = new JwtTokenManager();
+const handleSubscriptionChange = (newSubscriptionStatus: boolean) => {
+  setVideoData((prevVideoData) => {
+    const updatedSubscribers = newSubscriptionStatus
+      ? prevVideoData.channel.subscribers + 1
+      : prevVideoData.channel.subscribers - 1;
+
+    const newVideoData = { ...prevVideoData };
+
+    newVideoData.subscribed = !prevVideoData.subscribed;
+    newVideoData.channel = {
+      ...prevVideoData.channel,
+      subscribers: updatedSubscribers,
+    };
+
+    console.log("Updated Video Data:", newVideoData);
+    return newVideoData;
+  });
+};
+
   useEffect(() => {
     const videoIndex = pathname.indexOf("video/");
     const newvideoId =
@@ -83,7 +103,10 @@ const Video = () => {
           ) : (
             <>
               <VideoPlayer videoData={videoData} />
-              <VideoInfo videoData={videoData} />
+              <VideoInfo
+                videoData={videoData}
+                onSubscriptionChange={handleSubscriptionChange}
+              />
               <CommentsSection videoDetails={videoData} />
             </>
           )}

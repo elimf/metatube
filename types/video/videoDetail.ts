@@ -16,6 +16,7 @@ export interface VideoDetail {
   };
   suggestions: SuggestionVideo[];
   liked: boolean;
+  subscribed: boolean;
   comments: CommentTypes[];
 }
 export interface SuggestionVideo {
