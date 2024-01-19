@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header/Header";
-import { getVideoById } from "@/api/video/getVideoById";
+import { getVideoById } from "@/app/api/video/getVideoById";
 import { VideoDetail } from "@/types";
 import VideoInfo from "@/components/Video/VideoInfo";
 import VideoSuggestions from "@/components/Video/VideoSuggestions";
@@ -13,7 +13,7 @@ import VideoInfoLoader from "@/components/Loader/Video/VideoInfoLoader";
 import VideoPlayer from "@/components/Video/VideoPlayer";
 import VideoPlayerLoader from "@/components/Loader/Video/VideoPlayerLoader";
 import { JwtTokenManager } from "@/utils/jwtManager";
-import { apiRefresh } from "@/api/auth/refresh";
+import { apiRefresh } from "@/app/api/auth/refresh";
 
 const Video = () => {
   const pathname = usePathname();
@@ -39,57 +39,57 @@ const Video = () => {
     subscribed: false,
   });
 
-const handleSubscriptionChange = (newSubscriptionStatus: boolean) => {
-  setVideoData((prevVideoData) => {
-    const updatedSubscribers = newSubscriptionStatus
-      ? prevVideoData.channel.subscribers + 1
-      : prevVideoData.channel.subscribers - 1;
+  const handleSubscriptionChange = (newSubscriptionStatus: boolean) => {
+    setVideoData((prevVideoData) => {
+      const updatedSubscribers = newSubscriptionStatus
+        ? prevVideoData.channel.subscribers + 1
+        : prevVideoData.channel.subscribers - 1;
 
-    const newVideoData = { ...prevVideoData };
+      const newVideoData = { ...prevVideoData };
 
-    newVideoData.subscribed = !prevVideoData.subscribed;
-    newVideoData.channel = {
-      ...prevVideoData.channel,
-      subscribers: updatedSubscribers,
-    };
+      newVideoData.subscribed = !prevVideoData.subscribed;
+      newVideoData.channel = {
+        ...prevVideoData.channel,
+        subscribers: updatedSubscribers,
+      };
 
-    console.log("Updated Video Data:", newVideoData);
-    return newVideoData;
-  });
-};
+      console.log("Updated Video Data:", newVideoData);
+      return newVideoData;
+    });
+  };
 
-useEffect(() => {
-  const tokenManager = new JwtTokenManager();
-  const videoIndex = pathname.indexOf("video/");
-  const newvideoId =
-    videoIndex !== -1 ? pathname.slice(videoIndex + 6).split("/")[0] : null;
-  if (newvideoId) {
-    setLoading(true); // Set loading to true before fetching data
-    const token = tokenManager.getToken();
-    if (token) {
-      tokenManager.isTokenValid(token).then((res) => {
-        if (!res) {
-          apiRefresh();
-        }
-      });
-      getVideoById(newvideoId, token)
-        .then((res) => {
-          if (res) {
-            setVideoData(res);
+  useEffect(() => {
+    const tokenManager = new JwtTokenManager();
+    const videoIndex = pathname.indexOf("video/");
+    const newvideoId =
+      videoIndex !== -1 ? pathname.slice(videoIndex + 6).split("/")[0] : null;
+    if (newvideoId) {
+      setLoading(true); // Set loading to true before fetching data
+      const token = tokenManager.getToken();
+      if (token) {
+        tokenManager.isTokenValid(token).then((res) => {
+          if (!res) {
+            apiRefresh();
           }
-        })
-        .finally(() => setLoading(false));
-    } else {
-      getVideoById(newvideoId)
-        .then((res) => {
-          if (res) {
-            setVideoData(res);
-          }
-        })
-        .finally(() => setLoading(false));
+        });
+        getVideoById(newvideoId, token)
+          .then((res) => {
+            if (res) {
+              setVideoData(res);
+            }
+          })
+          .finally(() => setLoading(false));
+      } else {
+        getVideoById(newvideoId)
+          .then((res) => {
+            if (res) {
+              setVideoData(res);
+            }
+          })
+          .finally(() => setLoading(false));
+      }
     }
-  }
-}, [pathname, JwtTokenManager]);
+  }, [pathname, JwtTokenManager]);
 
   return (
     <Header withSidebar={true}>

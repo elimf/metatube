@@ -3,8 +3,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Comment from "@/components/Interaction/Comment/Comment";
 import Image from "next/image";
 import { CommentTypes, CreateCommentDto, CommentsSectionProps } from "@/types";
-import { apiRefresh } from "@/api/auth/refresh";
-import { apiCommentCreate } from "@/api/interaction/comment";
+import { apiRefresh } from "@/app/api/auth/refresh";
+import { apiCommentCreate } from "@/app/api/interaction/comment";
 import { JwtTokenManager } from "@/utils/jwtManager";
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({ videoDetails }) => {

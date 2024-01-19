@@ -3,9 +3,9 @@ import { dateFormat } from "@/utils/dateFormat";
 import { CommentProps } from "@/types/props/Interaction/Comment/CommentProps";
 import Image from "next/image";
 import { CommentTypes, CreateCommentDto } from "@/types";
-import { apiRefresh } from "@/api/auth/refresh";
+import { apiRefresh } from "@/app/api/auth/refresh";
 import { JwtTokenManager } from "@/utils/jwtManager";
-import { apiCommentCreate } from "@/api/interaction/comment";
+import { apiCommentCreate } from "@/app/api/interaction/comment";
 
 const Comment: React.FC<CommentProps> = ({
   videoId,

@@ -5,10 +5,10 @@ import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import { VideoUpload } from "@/types";
 import { VideoModalProps } from "@/types/props/Modal/VideoModalProps";
 import Image from "next/image";
-import { uploadVideo } from "@/api/video/upload";
+import { uploadVideo } from "@/app/api/video/upload";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import showToast from "@/utils/toast";
-import { apiRefresh } from "@/api/auth/refresh";
+import { apiRefresh } from "@/app/api/auth/refresh";
 
 const resolver: Resolver<VideoUpload> = async (values) => {
   const MAX_VIDEO_SIZE_MB = 100;
@@ -114,13 +114,10 @@ const AddVideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
       case 500:
         showToast(result.message, "error");
         break;
-        case 401:
-           apiRefresh();
-                showToast(
-                  "An error has occurred, please try again later. ",
-                  "error"
-                );
-          break;
+      case 401:
+        apiRefresh();
+        showToast("An error has occurred, please try again later. ", "error");
+        break;
       default:
         break;
     }

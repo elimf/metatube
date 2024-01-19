@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import Link from "next/link";
 import { passwordRegex } from "@/utils/regex";
 import { Login } from "@/types/auth";
-import { apiLogin } from "@/api/auth/login";
+import { apiLogin } from "@/app/api/auth/login";
 import showToast from "@/utils/toast";
 
 const resolver: Resolver<Login> = async (values) => {

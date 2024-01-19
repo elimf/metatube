@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, Resolver, set } from "react-hook-form";
 import Link from "next/link";
 import { passwordRegex } from "@/utils/regex";
 import { Register } from "@/types";
-import { apiRegister } from "@/api/auth/register";
+import { apiRegister } from "@/app/api/auth/register";
 import showToast from "@/utils/toast";
 
 const resolver: Resolver<Register> = async (values) => {

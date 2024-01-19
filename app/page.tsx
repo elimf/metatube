@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "@/components/Header/Header";
 import VideoPreview from "@/components/Video/VideoPreview";
-import { getVideos } from "@/api/video/getVideo";
+import { getVideos } from "@/app/api/video/getVideo";
 import { Video } from "@/types";
 
 export default function Home() {

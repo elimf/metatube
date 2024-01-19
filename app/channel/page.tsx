@@ -3,11 +3,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Header from "@/components/Header/Header";
 import React from "react";
 import { ChannelCreate } from "@/types/channel";
-import { apiChannelPost } from "@/api/channel/create";
+import { apiChannelPost } from "@/app/api/channel/create";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import showToast from "@/utils/toast";
 import { useRouter } from "next/navigation";
-import { apiRefresh } from "@/api/auth/refresh";
+import { apiRefresh } from "@/app/api/auth/refresh";
 import withAuth from "@/utils/authManager";
 
 const CreateChannelPage: React.FC = () => {

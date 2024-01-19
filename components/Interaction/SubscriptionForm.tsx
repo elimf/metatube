@@ -1,5 +1,5 @@
-import { apiRefresh } from "@/api/auth/refresh";
-import { apiSubscribeManager } from "@/api/interaction/subscribe";
+import { apiRefresh } from "@/app/api/auth/refresh";
+import { apiSubscribeManager } from "@/app/api/interaction/subscribe";
 import { CreateSubscribeDto } from "@/types";
 import { JwtTokenManager } from "@/utils/jwtManager";
 import React, { useState, useEffect } from "react";
@@ -19,7 +19,7 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
     isSubscribed ? "subscribe" : "unsubscribe"
   );
   useEffect(() => {
-   setSubscriptionAction(isSubscribed ? "subscribe" : "unsubscribe");
+    setSubscriptionAction(isSubscribed ? "subscribe" : "unsubscribe");
   }, [isSubscribed]);
   const tokenManager = new JwtTokenManager();
   const handleSelectChange = async (

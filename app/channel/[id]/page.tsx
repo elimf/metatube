@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header/Header";
 import TabBar from "@/components/Channel/Tabbar";
 import ChannelInfo from "@/components/Channel/ChannelInfo";
-import { apiChannelGetById } from "@/api/channel/getChannel";
+import { apiChannelGetById } from "@/app/api/channel/getChannel";
 import { Channel } from "@/types/channel";
 import ChannelInfoLoader from "@/components/Loader/Channel/ChannelInfoLoader";
 import TabbarLoader from "@/components/Loader/Channel/TabbarLoader";
