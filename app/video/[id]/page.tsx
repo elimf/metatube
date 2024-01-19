@@ -38,7 +38,7 @@ const Video = () => {
     liked: false,
     subscribed: false,
   });
-  const tokenManager = new JwtTokenManager();
+
 const handleSubscriptionChange = (newSubscriptionStatus: boolean) => {
   setVideoData((prevVideoData) => {
     const updatedSubscribers = newSubscriptionStatus
@@ -58,37 +58,38 @@ const handleSubscriptionChange = (newSubscriptionStatus: boolean) => {
   });
 };
 
-  useEffect(() => {
-    const videoIndex = pathname.indexOf("video/");
-    const newvideoId =
-      videoIndex !== -1 ? pathname.slice(videoIndex + 6).split("/")[0] : null;
-    if (newvideoId) {
-      setLoading(true); // Set loading to true before fetching data
-      const token = tokenManager.getToken();
-      if (token) {
-        tokenManager.isTokenValid(token).then((res) => {
-          if (!res) {
-            apiRefresh();
+useEffect(() => {
+  const tokenManager = new JwtTokenManager();
+  const videoIndex = pathname.indexOf("video/");
+  const newvideoId =
+    videoIndex !== -1 ? pathname.slice(videoIndex + 6).split("/")[0] : null;
+  if (newvideoId) {
+    setLoading(true); // Set loading to true before fetching data
+    const token = tokenManager.getToken();
+    if (token) {
+      tokenManager.isTokenValid(token).then((res) => {
+        if (!res) {
+          apiRefresh();
+        }
+      });
+      getVideoById(newvideoId, token)
+        .then((res) => {
+          if (res) {
+            setVideoData(res);
           }
-        });
-        getVideoById(newvideoId, token)
-          .then((res) => {
-            if (res) {
-              setVideoData(res);
-            }
-          })
-          .finally(() => setLoading(false));
-      } else {
-        getVideoById(newvideoId)
-          .then((res) => {
-            if (res) {
-              setVideoData(res);
-            }
-          })
-          .finally(() => setLoading(false));
-      }
+        })
+        .finally(() => setLoading(false));
+    } else {
+      getVideoById(newvideoId)
+        .then((res) => {
+          if (res) {
+            setVideoData(res);
+          }
+        })
+        .finally(() => setLoading(false));
     }
-  }, [pathname]);
+  }
+}, [pathname, JwtTokenManager]);
 
   return (
     <Header withSidebar={true}>

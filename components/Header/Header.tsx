@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
     };
 
     fetchData();
-  }, [token]);
+  }, [token, tokenManager]);
 
   const mainMargin = isSidebarOpen ? "ml-16" : "ml-48";
 
