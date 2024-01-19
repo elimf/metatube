@@ -1,5 +1,5 @@
 const nextConfig = {};
-
+const { NEXT_PUBLIC_API_URL } = process.env;  
 module.exports = {
   reactStrictMode: true,
   env: {
