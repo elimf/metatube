@@ -1,12 +1,10 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {};
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 module.exports = {
   reactStrictMode: true,
   env: {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
   images: {
     domains: [
@@ -24,7 +22,7 @@ module.exports = {
       },
       {
         protocol: "http",
-        hostname: API_URL,
+        hostname: NEXT_PUBLIC_API_URL,
         port: "",
         pathname: "**",
       },
