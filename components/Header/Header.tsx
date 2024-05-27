@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
 import { HeaderProps } from "@/types/props/Header/HeaderProps";
@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ children, withSidebar }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
-  const tokenManager = new JwtTokenManager();
+  const tokenManager = useMemo(() => new JwtTokenManager(), []);
   const token = tokenManager.getToken();
 
   const toggleDropdown = () => {

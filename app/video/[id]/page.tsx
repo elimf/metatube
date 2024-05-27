@@ -89,7 +89,7 @@ const Video = () => {
           .finally(() => setLoading(false));
       }
     }
-  }, [pathname, JwtTokenManager]);
+  }, [pathname]);
 
   return (
     <Header withSidebar={true}>
