@@ -1,6 +1,6 @@
-const nextConfig = {};
-const { NEXT_PUBLIC_API_URL } = process.env;  
-module.exports = {
+const { NEXT_PUBLIC_API_URL } = process.env;
+
+const nextConfig = {
   reactStrictMode: true,
   env: {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         protocol: "http",
-        hostname: NEXT_PUBLIC_API_URL,
+        hostname: new URL(NEXT_PUBLIC_API_URL).hostname,
         port: "",
         pathname: "**",
       },
@@ -35,3 +35,5 @@ module.exports = {
     ],
   },
 };
+
+module.exports = nextConfig;
