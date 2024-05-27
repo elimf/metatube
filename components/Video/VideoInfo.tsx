@@ -41,17 +41,21 @@ const VideoInfo: React.FC<VideoInfoProps> = ({
           <div className="flex items-center justify-between mb-2">
             {/* Channel Image and Channel Info */}
             <div className="flex items-center">
-              <Image
-                src={
-                  videoInformation.channel.icon
-                    ? `${API_URL}/${videoInformation.channel.icon}`
-                    : `https://api.dicebear.com/7.x/initials/png?seed=${videoInformation.channel.channelName}&backgroundColor=d1d4f9&color=%23fff}`
-                }
-                alt={"Channel Image"}
-                className="w-16 h-16 rounded-full mr-2"
-                width={64}
-                height={64}
-              />
+            <Image
+  src={
+    videoInformation.channel.icon &&
+    (videoInformation.channel.icon.startsWith("http://") ||
+      videoInformation.channel.icon.startsWith("https://"))
+      ? videoInformation.channel.icon
+      : `${API_URL}/${videoInformation.channel.icon ||
+          `https://api.dicebear.com/7.x/initials/png?seed=${videoInformation.channel.channelName}&backgroundColor=d1d4f9&color=%23fff`}`
+  }
+  alt={"Channel Image"}
+  className="w-16 h-16 rounded-full mr-2"
+  width={64}
+  height={64}
+/>
+
               {/* Channel Name and Subscribers */}
               <div>
                 <p className="text-lg font-bold">

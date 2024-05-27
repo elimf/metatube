@@ -70,9 +70,8 @@ const VideoPreview = ({
       <div className="p-4 flex items-center">
         <Image
           src={
-            item.channel?.icon
-              ? `${API_URL}/${item.channel?.icon}`
-              : `https://api.dicebear.com/7.x/initials/png?seed=${item.channel?.channelName}&backgroundColor=d1d4f9&color=%23fff}`
+            item.channel?.icon ||
+             "https://api.dicebear.com/7.x/avataaars-neutral/png?eyes=xDizzy"
           }
           alt={`thumbnail ${item.title}`}
           style={{ objectFit: "contain" }}
