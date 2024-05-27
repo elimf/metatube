@@ -122,7 +122,7 @@ const AddVideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
         break;
     }
   };
-  const onSubmit: SubmitHandler<VideoUpload> = async (data) => {
+  const onSubmit = async (data: VideoUpload) => {
     clearErrors();
     if (token) {
       const result = await uploadVideo(data, token);
