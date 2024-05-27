@@ -27,20 +27,25 @@ export default function Home() {
   return (
     <>
       <Header withSidebar={true}>
-        <div className="flex-grow mt-24 px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-            {videos.map((video, index) =>
-              loading ? (
-                <div key={video._id}>
-                  <p>Loading ...</p>
-                </div>
-              ) : (
-                <VideoPreview item={video} key={index} useHover={true} />
-              )
-            )}
-          </div>
-        </div>
-      </Header>
+  <div className="flex-grow mt-24 px-8">
+    {videos.length === 0 ? (
+      <p>Any videos to show ...</p>
+    ) : (
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+        {videos.map((video, index) =>
+          loading ? (
+            <div key={video._id}>
+              <p>Loading ...</p>
+            </div>
+          ) : (
+            <VideoPreview item={video} key={index} useHover={true} />
+          )
+        )}
+      </div>
+    )}
+  </div>
+</Header>
+
     </>
   );
 }
